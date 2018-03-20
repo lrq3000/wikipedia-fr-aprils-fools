@@ -1,7 +1,7 @@
 /* Minitel CSS style for MediaWiki
 by LRQ3000
-v1.9.3
-Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL), and in addition also licensed under the General Public License v2 at choice.
+v2.0.0
+Released under MIT License
 */
 
 /* THEME:
@@ -11,7 +11,8 @@ The main theme is based on lime, all the other colors are derived from it:
 * monochromatic: Malachite #2ee62e
 * analogous: Cyan/Aqua, Chartreuse #80ff00
 * triadic: Flush Orange #ff8000, Magenta/Fuchsia
-* tetradic: Red, Flush Orange #ff00ff, Blue
+* tetradic: Red, Flush Orange #ff00ff, Blue (replaced by #00c9fe for usability)
+* use Color Contrast Analyzer to check usability.
 */
 
 /* OVERALL COLOR AND BACKGROUND THEME */
@@ -96,7 +97,8 @@ div#mw-mf-page-center div.header-container {
 h2 {color: lime; border-color: lime; border-bottom: 1px solid;}
 #mw-content-text .accueil_2017_cadre h2 {border-color: lime;}
 div#catlinks {background-color: lime; border-color: lime;}
-div#mw-navigation div.portal h3{color: grey;}
+div#mw-navigation div.portal h3{color: lightgrey;}
+div#mw-head div#p-personal ul li{color: lightgrey;}
 div.vectorTabs li span {
     color: lime;
     background-color: black;
@@ -116,9 +118,9 @@ a:visited{color:magenta}
 a.external{color:#ff4000}
 a.external:visited{color:#ff8000}
 div#mw-panel div.portal div.body ul li a{color:cyan}
-div#mw-panel div.portal div.body ul li a:visited{color:blue}
+div#mw-panel div.portal div.body ul li a:visited{color:#00c9fe}
 div#mw-head div#p-personal ul li a{color:cyan}
-div#mw-head div#p-personal ul li a:visited{color:blue}
+div#mw-head div#p-personal ul li a:visited{color:#00c9fe}
 .hlist a, .hlist-separated a{color:#ff0080}
 .hlist-separated, .hlist{color:#ff0080} /* does not work */
 a.internal, ul#footer-places li a, ul#footer-info li a{color:#ff0080}
@@ -166,6 +168,19 @@ blink, .blink {
   67% { opacity: 0 }
 }
 
+/* Desktop icons images replacement */
+#pt-userpage,#pt-anonuserpage{
+    background-position:left top;
+    background-repeat:no-repeat;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAOCAMAAAAsYw3eAAAAM1BMVEUAAADY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NgA7+/Y2NgfRM3BAAAAD3RSTlMAECAwQFBgcICfr7/P3+8Gi+IRAAAAVklEQVQI1z2MMRKAIBDEcoKo4DH5/2stYEyVFLsARLuvYFFSnWXFUDUBOFwUgLKjApCqznVxqtoAYkTtY5zxBDxmA+rrvRdjqi9Mf6D/3uHI7VkA6gI+2B0FuCTLmqMAAAAASUVORK5CYII=);
+}
+#pt-notifications-alert .mw-echo-notifications-badge:before{
+    background-image:url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M17.5 14V9c0-3-2.3-5-5.5-5S6.5 6 6.5 9v5c0 2 0 3-2 3v1h15v-1c-2 0-2-1-2-3zM12 20H9c0 1 1.6 2 3 2s3-1 3-2h-3z" id="path2" style="fill:#cccccc" /> </svg>");
+}
+#pt-notifications-notice .mw-echo-notifications-badge:before{
+    background-image:url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M3 13.35l1.8-7.2c.2-.996.81-1.8 1.8-1.8h10.8c.99 0 1.6.867 1.8 1.8l1.8 7.2v4.5c0 .99-.81 1.8-1.8 1.8H4.8c-.99 0-1.8-.81-1.8-1.8v-4.5zm6.96 1.8h4.08c-.49.557-1.212.9-2.04.9a2.68 2.68 0 0 1-2.04-.9h4.08c.414-.472.66-1.098.66-1.8h4.14l-1.44-7.2H6.6l-1.44 7.2H9.3c0 .702.246 1.328.66 1.8z" id="path2" style="fill:#cccccc" /> </svg>");
+}
+
 /* Mobile menu images replacement */
 .mw-ui-icon-minerva-mainmenu:before,.mw-ui-icon-mainmenu:before {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAACVBMVEUAAAAA/wD/qACRQSxAAAAAAXRSTlMAQObYZgAAABZJREFUeAFjGGDAiAlwS5AJRl1FfwAAiCkAcy7DuzoAAAAASUVORK5CYII=);}
 .mw-ui-icon-minerva-notifications:before,.mw-ui-icon-notifications:before {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wCoAADkTHArAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4gMMAwYk8jEoTwAAAWFJREFUSMftVM8qxFEU/ubOuDmu0y8LahbCcqykZmWHrZSFwhNYKMXCgleYUJQ8gTfwAFKUKBYeQZFi0uQ347s2PzUNZu6PWQinbrfuPef7zn/gR0jJZIQ6K9RtoS5b77rbip8A+7pzbr2TEFvTSkHZMwZgseF5JOvNivUu28o+8+kPc10Obp/gfBP7CwBzFVO+TpUS6511jA6TdJwIdaLeW6EOCnVHqFWh3gm1kIrAMdpKwA96me9sojcu1IpjdNnvhzqCwJU9+cSzK+udDWiAdaF6x2ghtMhTAHIANuPMUxzg0x6AF4IzQQQ11AoAYGGPQyKumPItgBsAw6EROAAg+JiibPcA9Etz8F35bQQlkwFQBBAbmEoKnAcAfY7RQKsBm056ei3lMhwVaizU3VaKp0I9ClliHzi3IdTnxihydQqTBIsAkPWmJtRUBATf7iUAq+8ICAqAszbUtYp/+VvyCszSghlLI+TFAAAAAElFTkSuQmCC);}
@@ -175,6 +190,15 @@ blink, .blink {
     /* Rotate a copyright html character into a copyleft */
     display:inline-block;
     transform: rotate(180deg);
+}
+
+textarea {
+  color:lime;
+  background-color:black;
+}
+.btn {
+  background-color:white;
+  color:black;
 }
 
 /* April's Fools fish image */
@@ -215,24 +239,4 @@ img, canvas {
     width: 435;
     height: 600;
     */
-}
-
-/* Old code, may not be necessary anymore */
-.textbox {
-  max-width:320px;
-  outline: 0px solid transparent;
-  display:inline-block;
-}
-textarea {
-  color:lime;
-  background-color:black;
-  border:none;
-  font-size:20px;
-  scroll:none;
-  overflow:hidden;
-  height:2em;
-}
-.btn {
-  background-color:white;
-  color:black;
 }
