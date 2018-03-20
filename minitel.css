@@ -1,7 +1,7 @@
 <!-- MINITEL -->
 /* Minitel CSS style for MediaWiki
 by LRQ3000
-v1.4.0
+v1.5.0
 Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
 */
 .copyleft { /* unused, was initially planned to show a copyleft logo along with the 2000 date */
@@ -35,7 +35,7 @@ div#accueil_2017_bloc-titre {
         all: unset;
     };
     /* Style of the Minitel style animated banner (via JS) */
-    font-size: 1em; /* Do not set this bigger than 1em, else smaller screens will have overlapping issues with the two columns of the banner (because there will be a wrong detection of the size of the content, because it will be based on the defined size of columns which is too small) */
+    font-size: 1.0em; /* Do not set this bigger than 1em, else smaller screens will have overlapping issues with the two columns of the banner (because there will be a wrong detection of the size of the content, because it will be based on the defined size of columns which is too small) */
     font-family: courier; /* ensure correct figlet display with fixed-size font */
     white-space: pre; /* important for figlet, will avoid breaking the lines hideously in the middle of the banner if div width too small (ie, for small screens) */
     color: lime;
@@ -59,14 +59,27 @@ div#accueil_2017_bloc-titre {
     column-rule-width: 1px;
     column-fill: auto;
 }
+div#accueil_2017_en-tete{background-image:none; background-color:black; border:0;}
+div#accueil_2017_bandeau{background-image:none; background-color:black; border:0;}
 
-/* LOGO */
-.mw-wiki-logo{
-    background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikipedia-logo-v2-fr-minitel.svg/135px-Wikipedia-logo-v2-fr-minitel.svg.png);
+/* MOBILE BANNER */
+div#mw-mf-page-center div.header-container {
     background-color: black;
 }
 
+/* LOGO */
+.mw-wiki-logo{
+    /* Desktop */
+    background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikipedia-logo-v2-fr-minitel.svg/135px-Wikipedia-logo-v2-fr-minitel.svg.png);
+    background-color: black;
+}
+/* Mobile */
+.branding-box h1, .footer-content h2 img{display: none;}
+.branding-box, .footer-content h2{background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/34/Wp-logo-mobile-figlet.png); background-repeat: no-repeat; background-position: center;}
+.footer-content h2{background-position: left; height: 20px;}
+
 /* LINKS AND TEXT COLORS */
+div#mw-navigation div.portal h3{color: grey;}
 div.vectorTabs li span {
     color: lime;
     background-color: black;
@@ -83,18 +96,28 @@ a:active{color:magenta}
 .mw-parser-output a.external:visited{color:orange}
 .mw-parser-output a.extiw{color:yellow}
 .mw-parser-output a.extiw:visited{color:orange}
+a.external{color:yellow}
+a.external:visited{color:orange}
 div#mw-panel div.portal div.body ul li a{color:cyan}
 div#mw-panel div.portal div.body ul li a:visited{color:green}
 div#mw-head div#p-personal ul li a{color:cyan}
 div#mw-head div#p-personal ul li a:visited{color:green}
-div#accueil_2017_en-tete{background-image:none; background-color:black; border:0;}
-div#accueil_2017_bandeau{background-image:none; background-color:black; border:0;}
+.hlist a, .hlist-separated a{color:magenta}
+.hlist-separated, .hlist{color:magenta} /* does not work */
+a.internal, ul#footer-places li a, ul#footer-info li a{color:magenta}
+a.internal:visited, ul#footer-places li a:visited, ul#footer-info li a:visited{color:cyan}
+ul#footer-places li a.extiw{color:yellow}
+ul#footer-places li a.extiw:visited{color:orange}
+div#footer ul li{color: green;}
+footer.minerva-footer a {color: magenta;}
+footer.minerva-footer a:visited {color: cyan;}
 /*a.stub{color:red}a.new,#p-personal a.new{color:red}a.new:visited,#p-personal a.new:visited{color:red}*/
 
 /* HORIZONTAL LINES AND BORDERS FIX */
 div.mw-body-content{border: 0}
 .firstHeading{border: 0}
 div#siteSub{display:none; visibility:hidden} /* no idea why this shows up, only way is to hide it explicitly... */
+div.view-border-box {background-color: black;}
 
 /* Blinking animation to liven up a bit the title */
 /* from https://en.wikipedia.org/wiki/Blink_element */

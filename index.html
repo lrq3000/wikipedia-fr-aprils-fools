@@ -10,7 +10,17 @@
 <link rel="stylesheet" href="https://fr.wikipedia.org/w/load.php?debug=false&lang=fr&modules=ext.echo.badgeicons%7Cext.echo.styles.badge%7Cext.uls.interlanguage%7Cext.visualEditor.desktopArticleTarget.noscript%7Cext.wikimediaBadges%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.interface%7Cskins.vector.styles%7Cwikibase.client.init&only=styles&skin=vector"/>
 <script async="" src="https://fr.wikipedia.org/w/load.php?debug=false&amp;lang=fr&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
 <meta name="ResourceLoaderDynamicStyles" content=""/>
+<!-- MINITEL -->
+<script src="minitel-anim.js"></script>
+<script>
+// IMPORTANT NOTE: the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
+document.write('<link rel="stylesheet" href="https://fr.wikipedia.org/w/load.php?debug=false&amp;lang=fr&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>')
+minitelHeader();
+</script>
+<noscript>
 <link rel="stylesheet" href="https://fr.wikipedia.org/w/load.php?debug=false&amp;lang=fr&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+</noscript>
+<!-- MINITEL -->
 <meta name="generator" content="MediaWiki 1.31.0-wmf.24"/>
 <meta name="referrer" content="origin"/>
 <meta name="referrer" content="origin-when-crossorigin"/>
@@ -413,7 +423,7 @@ Wikipedia® est une marque déposée de la <a href="//wikimediafoundation.org/wi
 
         <!-- MINITEL -->
         <!-- Should be put at the bottom of the HTML page, else HTML elements after might not display properly after the animation -->
-        <script src="minitel-anim.js"></script>
+        <script>minitelFooter();</script>
         <!-- MINITEL -->
 
 	</body>

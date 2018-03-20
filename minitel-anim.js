@@ -1,8 +1,36 @@
-﻿// Minitel animation for MediaWiki + CSS dynamic management
-// by LRQ3000
-// v1.4.0
-// Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
-// Usage: simply include this script, at the very bottom of your page, so that all other HTML elements are already defined before (else the hideOrShowAllBut() function won't work properly). No external library is required (such as JQuery). No need to include the CSS separately, it will be dynamically loaded by this script (which allows to disable the style by clicking a link). The style can however be used standalone, without the JS, by only including the CSS in the HTML head.
+﻿/* Minitel animation for MediaWiki + CSS dynamic management
+ * by LRQ3000
+ *  v1.5.0
+ * Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
+ * Usage: the simplest way is to include this script, at the very bottom of your page, so that all other HTML elements are already defined before (else the hideOrShowAllBut() function won't work properly). No external library is required (such as JQuery), and then call the helper functions, like this.
+ *
+<script src="minitel-anim.js"></script>
+<script>minitelHeader(); minitelFooter();</script>
+ *
+ * Note: There is no need to include the CSS separately, it will be dynamically loaded by this script (which allows to disable the style by clicking a link). The style can however be used standalone, without the JS, by only including the CSS in the HTML head.
+ *
+ * The second way is more complicated but will prevent the split-second blinking of the standard WP style before the new one loads.
+ * To achieve this, you need to do 2 includes and 2 code snippets:
+ * In the header:
+ *
+<script src="minitel-anim.js"></script>
+<script>
+// IMPORTANT NOTE: the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
+document.write('<link rel="stylesheet" href="path-to-wp-style"/>') // use the standard WP style as a basis, this is optional, if this line is removed the minitel style will display just fine too (albeit a bit different)
+minitelHeader();
+</script>
+<noscript>
+<link rel="stylesheet" href="path-to-wp-style"/>
+</noscript>
+ *
+ * Note: you need to replace path-to-wp-style with the dynamically generated path to the WP standard style.
+ * And in the footer at the most bottom part of your <body> just before </body>:
+ *
+<script>minitelFooter();</script>
+ *
+ * Then you're done!
+ * These instructions work for both the desktop and mobile homepages.
+ */
 
 function minitel_title_anim(msg) {
     // Inspired by Anonymous's code snippet: https://openclassrooms.com/forum/sujet/affichage-a-la-minitel
@@ -127,7 +155,7 @@ function minitelAnimMain() {
     // To change the banner, please first sanitize it in this order: double (escape) the antislashes and then replace line returns by \n
     // This necessitate an appropriate CSS for the bannerdiv for good display: white-space: pre; font-family: courier;
     message = " __      __ _  _    _         __     _  _\n \\ \\    / /(_)| |__(_) _ __  /_/  __| |(_) __ _\n  \\ \\/\\/ / | || / /| || '_ \\/ -_)/ _` || |/ _` |\n   \\_/\\_/  |_||_\\_\\|_|| .__/\\___|\\__,_||_|\\__,_|\n                      |_|\nL'encyclopédie libre que chacun peut améliorer<blink>_</blink>";
-    message_post = "\n<a href=\"?\" id=\"backtofuturelink\" style=\"color:magenta\" onclick=\"setCookie('miniteldisable', 1, 1);\">Cliquez ici pour retourner vers le futur!</a>"; // something you want to add after the banner but not shown during the animation (but this will be shown after on the page)
+    message_post = "\n<a href=\"?\" id=\"backtofuturelink\" style=\"color:magenta\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a>"; // something you want to add after the banner but not shown during the animation (but this will be shown after on the page)
     //document.getElementById('backtofuturelink').onclick = setCookie('miniteldisable', 1, 30);
     // Get the banner div html element
     bannerdiv_id = 'accueil_2017_bloc-titre';
@@ -157,20 +185,43 @@ function includeMinitelCSS() {
     document.getElementsByTagName("head")[0].appendChild(fileref)
 }
 
-// Launch the main routine on script include!
-var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
-if (minitel_disableflag != 1) {
-    // Minitel style flag not disabled (or not defined), we include the CSS and launch the animation
-    includeMinitelCSS();
-
-    // Do the animation, but only if not on mobile
-    mobilelink = document.getElementById('mw-mf-display-toggle');  // simply check for the existence of the link to switch the mobile version to desktop. This link does not exist on the desktop version.
-    if (mobilelink == null) {
-        minitelAnimMain();
+function minitelHeader() {
+    // Helper function: Auto include CSS file as appropriate and add link to disable/enable the style
+    // To be placed in the header (technically it could be placed at the footer and be merged with minitelFooter() but then there would be a split second where we can see the original WP style)
+    var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
+    if (minitel_disableflag != 1) {
+        // Minitel style flag not disabled (or not defined), we include the CSS and launch the animation
+        includeMinitelCSS();
     }
-} else {
-    // Else the user disabled the Minitel style, just don't do anything except adding a link to reactivate the Minitel style
-    pastlink = "<a href=\"?\" id=\"backtofuturelink\" style=\"font-size: 0.8em\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je me sens nostalgique! Ramenez-moi dans le passé!</a>";
-    bannerdiv = document.getElementById('accueil_2017_bloc-titre');
-    bannerdiv.innerHTML = bannerdiv.innerHTML + pastlink;
+}
+function minitelFooter() {
+    // Helper function: Launch the main routine on if not disabled by cookie! Also manages the links to enable/disable the style and animation
+    // To be placed in the footer, at the most bottom place in your <body>, just before the </body> if possible (because we need all HTML elements to be already loaded, in order to manipulate them)
+    var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
+    mobilelink = document.getElementById('mw-mf-display-toggle'); // get the link to toggle between mobile and desktop (this id only exists on the mobile version)
+    if (minitel_disableflag != 1) {
+        // Do the animation, but only if not on mobile
+        if (mobilelink == null) { // simply check for the existence of the link to switch the mobile version to desktop. This link does not exist on the desktop version.
+            // Desktop version, we can show the animation (which will add a disable link)
+            minitelAnimMain();
+        } else {
+            // Mobile version, no animation but we add a disable link (to disable the CSS style)
+            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:magenta\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
+            footerdiv = document.getElementsByClassName('footer-places')[0];
+            footerdiv.innerHTML = footerdiv.innerHTML + futurelink;
+        }
+    } else {
+        // Else the user disabled the Minitel style, just don't do anything except adding a link to reactivate the Minitel style
+        if (mobilelink == null) {
+            // Desktop version
+            pastlink = "<a href=\"?\" id=\"backtofuturelink\" style=\"font-size: 0.8em\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé!</a>";
+            bannerdiv = document.getElementById('accueil_2017_bloc-titre');
+            bannerdiv.innerHTML = bannerdiv.innerHTML + pastlink;
+        } else {
+            // Desktop version
+            pastlink = "<li><a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé!</a></li>";
+            footerdiv = document.getElementsByClassName('footer-places')[0];
+            footerdiv.innerHTML = footerdiv.innerHTML + pastlink;
+        }
+    }
 }
