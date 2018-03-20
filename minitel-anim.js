@@ -324,7 +324,7 @@ function minitelFooter() {
 // LOAD ON JS INCLUDE
 
 // Load only if main page, else skip and show normal pages
-var match = window.location.pathname.match( /Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || window.location.host.match( /localhost/ );
+var match = window.location.pathname.match( /Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || window.location.host.match( /localhost/ ) || window.location.host.match( /^.*\.github.io/ );
 if (match) {
     // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
     minitelHeader();
