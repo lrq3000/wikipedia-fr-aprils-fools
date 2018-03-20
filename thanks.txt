@@ -2,7 +2,7 @@ The Minitel/ASCII style was made by Lrq3000 for Wikipédia FR.
 
 This project would have been impossible without other opensource projects and resources, thanks to them for making available their great resources.
 
-Opensource softwares used were GIMP, Inkscape, the LAMPP test environment XAMPP, Filezilla and the banner was generated with the figlet generator npm figlet by patorjk.
+Opensource softwares used were GIMP, Inkscape, Audacity, the LAMPP test environment XAMPP, Filezilla and the banner was generated with the figlet generator npm figlet by patorjk.
 
 The script makes use of the awesome pixelate.js library https://github.com/43081j/pixelate.js to pixelate images on-the-fly without cross-domain issues.
 
