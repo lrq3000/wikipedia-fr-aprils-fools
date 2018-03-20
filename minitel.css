@@ -1,0 +1,135 @@
+<!-- MINITEL -->
+/* Minitel CSS style for MediaWiki
+by LRQ3000
+v1.0.0
+Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
+*/
+.copyleft { /* unused, was initially planned to show a copyleft logo along with the 2000 date */
+  display:inline-block;
+  transform: rotate(180deg);
+}
+body, #mw-page-base, #mw-head-base, #mw-head-base, #mw-panel, #mw-mf-viewport, #mw-mf-page-center, #bodyContent, #content {
+    background-color: black;
+    background-image: none;
+    color: lime;
+    /* display: none; this could be enabled and then reversed by the javascript to avoid the first glimpse before the script loads, but this would have an usability issue in case the user does not have javascript */
+}
+.mw-body {
+    background-color: black;
+    color: lime;
+    border: none;
+}
+#minitelanim {
+    font-size: 20px;
+    font-family:courier;
+    /* Increase size of div to increase the parent column */
+    width: 700px;
+    height: 20em;
+    margin: 0 0 0 -25px; /* The figlet is a bit too big to stay inside the column, we trick the display by using a negative margin */
+    vertical-align: top;
+}
+#accueil_2017_bloc-liens {
+    /*adjust margin to align with the minitel title*/
+    margin-top:-10em;
+}
+.mw-wiki-logo{
+    background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikipedia-logo-v2-fr-minitel.svg/135px-Wikipedia-logo-v2-fr-minitel.svg.png);
+    background-color: black;
+}
+div.vectorTabs li span {
+    color: lime;
+    background-color: black;
+    background-image: none;
+}
+div.vectorTabs li.selected a,div.vectorTabs li.selected a:visited{color:magenta}
+div.vectorTabs li.new a,div.vectorTabs li.new a:visited{color:magenta}
+div.vectorTabs li a{color:lime}
+a:visited{color:cyan}
+a:active{color:magenta}
+.mw-parser-output a{color:magenta}
+.mw-parser-output a:visited{color:cyan}
+.mw-parser-output a.external{color:yellow}
+.mw-parser-output a.external:visited{color:orange}
+.mw-parser-output a.extiw{color:yellow}
+.mw-parser-output a.extiw:visited{color:orange}
+div#mw-panel div.portal div.body ul li a{color:cyan}
+div#mw-panel div.portal div.body ul li a:visited{color:green}
+div#mw-head div#p-personal ul li a{color:cyan}
+div#mw-head div#p-personal ul li a:visited{color:green}
+div#accueil_2017_en-tete{background-image:none; background-color:black; border:0;}
+div#accueil_2017_bandeau{background-image:none; background-color:black; border:0;}
+#accueil_2017_bloc-titre h2, #accueil_2017_bloc-titre p{display:none; visibility:hidden;}
+/*a.stub{color:red}a.new,#p-personal a.new{color:red}a.new:visited,#p-personal a.new:visited{color:red}*/
+div.mw-body-content{border: 0}
+.firstHeading{border: 0}
+div#siteSub{display:none; visibility:hidden} /* no idea why this shows up, only way is to hide it explicitly... */
+
+/* Blinking animation to liven up a bit the title */
+/* from https://en.wikipedia.org/wiki/Blink_element */
+blink, .blink {
+  -webkit-animation: blink 2s step-end infinite;
+  -moz-animation: blink 2s step-end infinite;
+  -o-animation: blink 2s step-end infinite;
+  animation: blink 2s step-end infinite;
+}
+
+@-webkit-keyframes blink {
+  67% { opacity: 0 }
+}
+
+@-moz-keyframes blink {
+  67% { opacity: 0 }
+}
+
+@-o-keyframes blink {
+  67% { opacity: 0 }
+}
+
+@keyframes blink {
+  67% { opacity: 0 }
+}
+
+/* Old code, may not be necessary anymore */
+pre {
+  font-size:20px;
+  background-color:black;
+  color:white;
+  padding:2px 10px 2px 10px;;
+  widht:auto;
+  display:inline-block;
+}
+.label {
+  display:inline-block;
+  float:left;
+}
+.textbox {
+  max-width:320px;
+  outline: 0px solid transparent;
+  display:inline-block;
+}
+textarea {
+  color:cyan;
+  background-color:black;
+  border:none;
+  font-size:20px;
+  scroll:none;
+  overflow:hidden;
+  height:2em;
+}
+.btn {
+  background-color:white;
+  color:black;
+}
+.blue {
+  color:blue;
+}
+.yellow {
+  color:yellow;
+}
+.green {
+  color:lime;
+}
+.cyan {
+  color:cyan;
+}
+<!-- MINITEL -->
