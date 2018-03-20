@@ -1,13 +1,15 @@
 <!-- MINITEL -->
 /* Minitel CSS style for MediaWiki
 by LRQ3000
-v1.0.0
+v1.4.0
 Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
 */
 .copyleft { /* unused, was initially planned to show a copyleft logo along with the 2000 date */
   display:inline-block;
   transform: rotate(180deg);
 }
+
+/* OVERALL COLOR AND BACKGROUND THEME */
 body, #mw-page-base, #mw-head-base, #mw-head-base, #mw-panel, #mw-mf-viewport, #mw-mf-page-center, #bodyContent, #content {
     background-color: black;
     background-image: none;
@@ -19,23 +21,52 @@ body, #mw-page-base, #mw-head-base, #mw-head-base, #mw-panel, #mw-mf-viewport, #
     color: lime;
     border: none;
 }
-#minitelanim {
-    font-size: 20px;
-    font-family:courier;
+
+/* HIDE CLASS */
+/* this is used by the JS script to hide all elements during animation */
+.hide { display:none; visibility: hidden; }
+script { display: none; visibility: hidden; } /* hide javascript code, else it gets printed just like any other text */
+
+/* BANNER SETUP */
+#accueil_2017_bloc-titre h2, #accueil_2017_bloc-titre p{display:none; visibility:hidden;}
+div#accueil_2017_bloc-titre {
+    all: initial;
+    * {
+        all: unset;
+    };
+    /* Style of the Minitel style animated banner (via JS) */
+    font-size: 1em; /* Do not set this bigger than 1em, else smaller screens will have overlapping issues with the two columns of the banner (because there will be a wrong detection of the size of the content, because it will be based on the defined size of columns which is too small) */
+    font-family: courier; /* ensure correct figlet display with fixed-size font */
+    white-space: pre; /* important for figlet, will avoid breaking the lines hideously in the middle of the banner if div width too small (ie, for small screens) */
+    color: lime;
     /* Increase size of div to increase the parent column */
-    width: 700px;
-    height: 20em;
-    margin: 0 0 0 -25px; /* The figlet is a bit too big to stay inside the column, we trick the display by using a negative margin */
+    /*width: 30em;*/
+    /* height: 10em; */
+    /* margin: 0 0 0 -25px; /* The figlet is a bit too big to stay inside the column, we trick the display by using a negative margin */
     vertical-align: top;
+    overflow: visible;
+    display: block;
+    /* Not sure this should be here or in div.colonnes below */
+    break-inside:avoid; -webkit-column-break-inside:avoid; page-break-inside:avoid;
 }
 #accueil_2017_bloc-liens {
     /*adjust margin to align with the minitel title*/
-    margin-top:-10em;
+    /* margin-top:-10em; */
 }
+#accueil_2017_bandeau>div.colonnes {
+    /* Add a visible vertical line to separate the banner from the links */
+    column-rule-style: solid;
+    column-rule-width: 1px;
+    column-fill: auto;
+}
+
+/* LOGO */
 .mw-wiki-logo{
     background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikipedia-logo-v2-fr-minitel.svg/135px-Wikipedia-logo-v2-fr-minitel.svg.png);
     background-color: black;
 }
+
+/* LINKS AND TEXT COLORS */
 div.vectorTabs li span {
     color: lime;
     background-color: black;
@@ -58,8 +89,9 @@ div#mw-head div#p-personal ul li a{color:cyan}
 div#mw-head div#p-personal ul li a:visited{color:green}
 div#accueil_2017_en-tete{background-image:none; background-color:black; border:0;}
 div#accueil_2017_bandeau{background-image:none; background-color:black; border:0;}
-#accueil_2017_bloc-titre h2, #accueil_2017_bloc-titre p{display:none; visibility:hidden;}
 /*a.stub{color:red}a.new,#p-personal a.new{color:red}a.new:visited,#p-personal a.new:visited{color:red}*/
+
+/* HORIZONTAL LINES AND BORDERS FIX */
 div.mw-body-content{border: 0}
 .firstHeading{border: 0}
 div#siteSub{display:none; visibility:hidden} /* no idea why this shows up, only way is to hide it explicitly... */
@@ -129,7 +161,10 @@ textarea {
 .green {
   color:lime;
 }
-.cyan {
+.cyan a.cyan a.cyan:visited {
+  color:cyan;
+}
+.magenta a.magenta a.magenta:active a.magenta:visited {
   color:cyan;
 }
 <!-- MINITEL -->
