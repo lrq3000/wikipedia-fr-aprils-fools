@@ -1,0 +1,8 @@
+* on-the-fly image to ascii to image converter with true color: instead of the pixelate, the initial idea was to generate ASCII art (instead of pixel art), with true color support, mimicking http://www.ascii-art-generator.org/ and https://github.com/Drezil/img2ascii
+However this idea was dropped because there is no pure javascript library to do that yet: they can convert to ASCII, but no true color is supported, there is no background coloring (only the caracters are colored), and they do not provide a way to convert back to an image (to ensure that we can just replace the original images with new ones, conserving ratio and ensuring correct display, without bothering about complex styling).
+However, there are some opensource javascript libraries that could be a good starting point, they provide pure javascript image to ascii art conversion:
+    * https://github.com/EnotionZ/jscii
+    * https://github.com/jpetitcolas/ascii-art-converter
+    * http://mir3z.github.io/aalib.js/
+
+Also worth of mention is this pixelating project with true color support: https://github.com/eliukblau/pixterm

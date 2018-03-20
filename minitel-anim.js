@@ -1,7 +1,7 @@
 ﻿/* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- *  v1.8.0
- * Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
+ *  v1.9.3
+ * Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL), and in addition also licensed under the General Public License v2 at choice.
  * Usage: the simplest way is to include this script, at the very bottom of your page, so that all other HTML elements are already defined before (else the hideOrShowAllBut() function won't work properly). No external library is required (such as JQuery), and then call the helper functions, like this.
  *
 <script src="minitel-anim.js"></script>
@@ -76,12 +76,14 @@ function minitel_play_sound(){
 }
 function stopAnim() {
     // Stop the animation and restore the page (on user interruption or because animation has finished)
+    // This is called in any case at the end of the animation
     animstop_flag = true;
     J = 0;
     bannerdiv.innerHTML = message.replace(/\n/gi, "<br />") + message_post.replace(/\n/gi, "<br />"); // show the full message with correct HTML markup
     bannerdiv.setAttribute("style", prevstyle); // restore style (ie, font-size)
     hideOrShowAllBut("#"+bannerdiv_id, false); //revealAll(); // reveal everything, all other HTML elements
     bindUserInterruption(stopAnim, false); // unbind user interruption on mouse/keyboard (else it's not a big issue, the banner gets refreshed at each mouse or key press, it's not even visible with naked eye)
+    loadAndPixelateImages(); // bonus: pixelate all images if possible (there is a try catch inside)
 }
 function revealAll() {
     // Show all other HTML elements along with #minitelanim
@@ -229,7 +231,48 @@ function includeMinitelCSS() {
 }
 function minitelAddFish() {
     // Add a div where the April's Fools fish image will be placed (via CSS) */
-    document.body.innerHTML += '<div id="aprilfish"><a href="https://fr.wikipedia.org/wiki/Poisson_d%27avril"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Fish_shell_logo_ascii_minitel.png" /></a></div>';
+    document.body.innerHTML += '<div id="aprilfish"><a href="https://fr.wikipedia.org/wiki/Poisson_d%27avril"><img id="aprilfishimg" src="https://upload.wikimedia.org/wikipedia/commons/2/23/Fish_shell_logo_ascii_minitel.png" /></a></div>';
+}
+
+/* Images pixelation (does not work on background images */
+function loadScript(url, callback)
+{
+    // Load an additional javascript library on-the-fly and callback a function that can then access this library
+    /* https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file */
+    // Adding the script tag to the head
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+
+    // Then bind the event to the callback function.
+    // There are several events for cross browser compatibility.
+    script.onreadystatechange = callback;
+    script.onload = callback;
+
+    // Fire the loading
+    head.appendChild(script);
+}
+function pixelateImages() {
+    // Pixelate all img
+    var imgs = document.getElementsByTagName('img'); // get all img objects
+    for (var i = 0; i < imgs.length; i++) { // iterate on each image
+        img = imgs[i];
+        //console.log(img.id);
+        if (!(img.id == "aprilfishimg")) { // exception for april fish!
+            prevstyle = window.getComputedStyle(img);
+            if ((!prevstyle.display | prevstyle.display != 'none') & (!prevstyle.visibility | prevstyle.visibility != 'hidden')) { // pixelate and show only if the image is not already hidden
+                img.pixelate({ value: 0.3, reveal: true }); // modify the value here to make it less or more pixelated (1 for no pixelation, 0 for full pixelation)
+            }
+        }
+    }
+}
+function loadAndPixelateImages(){
+    // Callback to pixelate all images at the end of the animation
+    // Useful to avoid pixelating while images are still hidden (else they will be misdetected as being originally hidden, whereas it's because of the banner animation)
+    try {
+        loadScript("pixelate.js", pixelateImages); // Bonus: pixelate all images
+    } catch(err) {};
 }
 
 // HELPER FUNCTIONS
@@ -252,13 +295,16 @@ function minitelFooter() {
         if (mobilelink == null) { // simply check for the existence of the link to switch the mobile version to desktop. This link does not exist on the desktop version.
             // Desktop version, we can show the animation (which will add a disable link)
             minitelAddFish(); // add a div to place the April's Fools fish image (via CSS) - DO THIS BEFORE calling the animation (so that the animation can hide it and restore it afterward)
-            minitelAnimMain();
+            minitelAnimMain(); // do the banner animation! Note: this will also add a link to disable the style + Bonus: pixelate all images (included in stopAnim())
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
             minitelAddFish(); // add also the fish
+            // Add a disable link
             futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
             footerdiv.innerHTML = footerdiv.innerHTML + futurelink;
+            // Bonus: pixelate all images
+            loadAndPixelateImages();
         }
     } else {
         // Else the user disabled the Minitel style, just don't do anything except adding a link to reactivate the Minitel style

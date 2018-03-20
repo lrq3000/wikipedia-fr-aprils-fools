@@ -1,7 +1,7 @@
 /* Minitel CSS style for MediaWiki
 by LRQ3000
-v1.8.0
-Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
+v1.9.3
+Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL), and in addition also licensed under the General Public License v2 at choice.
 */
 
 /* THEME:
@@ -200,6 +200,21 @@ blink, .blink {
 #aprilfish:hover {
     /* highlight aprilfish when mouse hover over it */
     opacity:1.0;
+}
+
+/* Keep pixelated style for images */
+img, canvas {
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-pixelated;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -o-pixelated;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+    /* Deprecated: attempt at downsampling and upsampling using only CSS and no JS (would work if all images had a tight div parent, but not necessarily the case here)
+    transform: scale(0.5);
+    width: 435;
+    height: 600;
+    */
 }
 
 /* Old code, may not be necessary anymore */

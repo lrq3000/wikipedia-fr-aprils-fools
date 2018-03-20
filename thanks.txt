@@ -4,4 +4,6 @@ This project would have been impossible without other opensource projects and re
 
 Opensource softwares used were GIMP, Inkscape, the LAMPP test environment XAMPP, Filezilla and the banner was generated with the figlet generator npm figlet by patorjk.
 
+The script makes use of the awesome pixelate.js library https://github.com/43081j/pixelate.js to pixelate images on-the-fly without cross-domain issues.
+
 This project uses images from other projects: the logo is a modified version of the Wikipedia logo v2 by the Wikimedia Foundation, and the April's Fools fish image is by the fish shell project.
