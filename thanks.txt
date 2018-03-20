@@ -1,0 +1,7 @@
+The Minitel/ASCII style was made by Lrq3000 for Wikipédia FR.
+
+This project would have been impossible without other opensource projects and resources, thanks to them for making available their great resources.
+
+Opensource softwares used were GIMP, Inkscape, the LAMPP test environment XAMPP, Filezilla and the banner was generated with the figlet generator npm figlet by patorjk.
+
+This project uses images from other projects: the logo is a modified version of the Wikipedia logo v2 by the Wikimedia Foundation, and the April's Fools fish image is by the fish shell project.

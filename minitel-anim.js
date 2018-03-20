@@ -1,6 +1,6 @@
 ﻿/* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- *  v1.5.0
+ *  v1.8.0
  * Released under co-license Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA) and the GNU Free Documentation License (GFDL).
  * Usage: the simplest way is to include this script, at the very bottom of your page, so that all other HTML elements are already defined before (else the hideOrShowAllBut() function won't work properly). No external library is required (such as JQuery), and then call the helper functions, like this.
  *
@@ -40,11 +40,20 @@ function minitel_title_anim(msg) {
         c = "<br />"; // line return
     } else if (c == " ") {
         c = "&nbsp;"; // physical space (important for correct rendering of figlet style banner)
+    } else if (c == "<") {
+        // support for html tags, we collect all the tags characters and input at once
+        next_c = "";
+        while (next_c != ">") {
+            next_c = msg.substring(I, I=I+1);
+            c = c + next_c;
+        }
+        c = c + msg.substring(I, I=I+1); // also add the next character to have something to display on screen
     }
-    // display the new character
-    bannerdiv.innerHTML = bannerdiv.innerHTML + c;
+
     // Continue, unless user interrupted
     if (!animstop_flag) {
+        // display the new character
+        bannerdiv.innerHTML = bannerdiv.innerHTML + c;
         // If there are more characters to draw, continue the animation
         if ( I < message.length ) {
             setTimeout(function() {minitel_title_anim(msg);}, J=J-Jstep);
@@ -58,18 +67,21 @@ function minitel_title_anim(msg) {
 }
 function minitel_play_sound(){
     // Play a minitel-like sound
-    var s = new Audio('https://upload.wikimedia.org/wikipedia/commons/a/a1/Fake_Minitel_sound.ogg');
-    //var s = new Audio('https://upload.wikimedia.org/wikipedia/commons/4/4f/Dial_up_connection.ogg');
-    s.loop = false;
-    s.play();
+    try {
+        var s = new Audio('https://upload.wikimedia.org/wikipedia/commons/a/a1/Fake_Minitel_sound.ogg');
+        //var s = new Audio('https://upload.wikimedia.org/wikipedia/commons/4/4f/Dial_up_connection.ogg');
+        s.loop = false;
+        s.play();
+    } catch(err) {}; // pass if Internet Explorer < 11 (incompatible with Audio)
 }
 function stopAnim() {
     // Stop the animation and restore the page (on user interruption or because animation has finished)
     animstop_flag = true;
     J = 0;
-    bannerdiv.innerHTML = message.replace(/(?<=>)[ ]/gi, "&nbsp;").replace(/\n/gi, "<br />") + message_post.replace(/\n/gi, "<br />"); // show the full message with correct HTML markup
+    bannerdiv.innerHTML = message.replace(/\n/gi, "<br />") + message_post.replace(/\n/gi, "<br />"); // show the full message with correct HTML markup
     bannerdiv.setAttribute("style", prevstyle); // restore style (ie, font-size)
     hideOrShowAllBut("#"+bannerdiv_id, false); //revealAll(); // reveal everything, all other HTML elements
+    bindUserInterruption(stopAnim, false); // unbind user interruption on mouse/keyboard (else it's not a big issue, the banner gets refreshed at each mouse or key press, it's not even visible with naked eye)
 }
 function revealAll() {
     // Show all other HTML elements along with #minitelanim
@@ -106,18 +118,38 @@ function hideOrShowAllBut(eltid, mode) {
     } while (el.tagName.toLowerCase() != 'body');
 
     // Hide the collected nodes
-    nodes.forEach(function(node){
+    //nodes.forEach(function(node){ // incompatible with old IE, or could use JQuery
+    for (var i = 0; i < nodes.length; i++) { // compatible with old IE
+        node = nodes[i];
         if (mode) {
-            node.classList.add("hide"); // add a hide class defined in CSS to set display: none; visibility: hidden. This does the job but will leave some divs only invisible, not removed (so there will still be a scrollbar)
+            try {
+                node.classList.add("hide"); // add a hide class defined in CSS to set display: none; visibility: hidden. This does the job but will leave some divs only invisible, not removed (so there will still be a scrollbar)
+            } catch(err) {} // just pass if IE < 10 (incompatible with classList)
             node.style.display = 'none'; // this totally hides, just like the html elements do not exist
         } else {
-            node.classList.remove("hide"); // remove the hide class
+            try {
+                node.classList.remove("hide"); // remove the hide class
+            } catch(err) {} // just pass if IE < 10 (incompatible with classList)
             node.style.display = 'inherit';  // use inherit to get the original values from CSS such as block/flex/inline-block etc
         }
-    });
+    };
 
     // Equivalent one-liner in JQuery 3.3.1
     //$('#accueil_2017_bloc-titre').show().parentsUntil('body').addBack().siblings().hide();
+}
+function bindUserInterruption(f, mode) {
+    // Bind the mouse click and keyboard key press to call the specified function (or unbinds if mode == false)
+    if (mode == true) {
+        window.onclick = f;
+        window.onkeypress = f;
+        document.getElementsByTagName("body")[0].onclick = function(){ f(); }; // for IE < 10 compatibility
+        document.getElementsByTagName("body")[0].onkeypress = function(){ f(); }; // for IE < 10 compatibility
+    } else {
+        window.onclick = null;
+        window.onkeypress = null;
+        document.getElementsByTagName("body")[0].onclick = function(){ null }; // for IE < 10 compatibility
+        document.getElementsByTagName("body")[0].onkeypress = function(){ null }; // for IE < 10 compatibility
+    }
 }
 
 // Functions to activate the link to disable this style
@@ -144,6 +176,18 @@ function eraseCookie(name) {
     document.cookie = name+'=; Max-Age=-99999999;';  
 }
 
+// Compatibility functions
+if (document.getElementsByClassName == null) {
+    document.getElementsByClassName = function(cl) {
+      var retnode = [];
+      var elem = this.getElementsByTagName('*');
+      for (var i = 0; i < elem.length; i++) {
+        if((' ' + elem[i].className + ' ').indexOf(' ' + cl + ' ') > -1) retnode.push(elem[i]);
+      }
+      return retnode;
+    };
+}
+
 // MAIN Minitel animation routine
 function minitelAnimMain() {
     // Declare some global variables
@@ -151,22 +195,21 @@ function minitelAnimMain() {
     J = 30.0; // Slowness of drawing the banner = starting delay of drawing between two characters (of the banner) - this amount will be gradually reduced
     Jstep = 0.1; // Step to decrease gradually the time it takes to draw the banner
     animstop_flag = false; // declare that the animation was stopped by user - Internal parameter, do not touch
+    bannerdiv_id = 'accueil_2017_bloc-titre'; // id of the html div that will welcome the animated banner (the content will be entirely replaced)
     // Banner in figlet style, generated with https://www.npmjs.com/package/figlet
     // To change the banner, please first sanitize it in this order: double (escape) the antislashes and then replace line returns by \n
-    // This necessitate an appropriate CSS for the bannerdiv for good display: white-space: pre; font-family: courier;
-    message = " __      __ _  _    _         __     _  _\n \\ \\    / /(_)| |__(_) _ __  /_/  __| |(_) __ _\n  \\ \\/\\/ / | || / /| || '_ \\/ -_)/ _` || |/ _` |\n   \\_/\\_/  |_||_\\_\\|_|| .__/\\___|\\__,_||_|\\__,_|\n                      |_|\nL'encyclopédie libre que chacun peut améliorer<blink>_</blink>";
-    message_post = "\n<a href=\"?\" id=\"backtofuturelink\" style=\"color:magenta\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a>"; // something you want to add after the banner but not shown during the animation (but this will be shown after on the page)
+    // This necessitate an appropriate CSS for the bannerdiv for good display (even though we enclose inside <pre> for consistent rendering in old browsers): white-space: pre; font-family: courier;
+    message = "<pre> __      __ _  _    _         __     _  _\n \\ \\    / /(_)| |__(_) _ __  /_/  __| |(_) __ _\n  \\ \\/\\/ / | || / /| || '_ \\/ -_)/ _` || |/ _` |\n   \\_/\\_/  |_||_\\_\\|_|| .__/\\___|\\__,_||_|\\__,_|\n                      |_|</pre>\nL'encyclopédie libre que chacun peut améliorer<blink>_</blink>";
+    message_post = "\n<a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a>"; // something you want to add after the banner but not shown during the animation (but this will be shown after on the page)
     //document.getElementById('backtofuturelink').onclick = setCookie('miniteldisable', 1, 30);
     // Get the banner div html element
-    bannerdiv_id = 'accueil_2017_bloc-titre';
     bannerdiv = document.getElementById(bannerdiv_id);
     bannerdiv.innerHTML = ""; // reset anything inside the bannerdiv, we will fill with our Minitel-like banner
     // Style it a bit for better effect (make it bigger)
     prevstyle = bannerdiv.getAttribute("style"); // backup previous style
     bannerdiv.setAttribute("style", "font-size: 2em; width: 100em; overflow: visible; position: absolute;"); // make it bigger
     // Allow to skip the animation on mouse click or key press
-    window.onclick = stopAnim;
-    window.onkeypress = stopAnim;
+    bindUserInterruption(stopAnim, true);
     // Hide all other elements except the banner
     hideOrShowAllBut("#"+bannerdiv_id, true);
     // Start playing the Minitel like connection sound
@@ -184,7 +227,12 @@ function includeMinitelCSS() {
     fileref.href = "minitel.css";
     document.getElementsByTagName("head")[0].appendChild(fileref)
 }
+function minitelAddFish() {
+    // Add a div where the April's Fools fish image will be placed (via CSS) */
+    document.body.innerHTML += '<div id="aprilfish"><a href="https://fr.wikipedia.org/wiki/Poisson_d%27avril"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Fish_shell_logo_ascii_minitel.png" /></a></div>';
+}
 
+// HELPER FUNCTIONS
 function minitelHeader() {
     // Helper function: Auto include CSS file as appropriate and add link to disable/enable the style
     // To be placed in the header (technically it could be placed at the footer and be merged with minitelFooter() but then there would be a split second where we can see the original WP style)
@@ -203,10 +251,12 @@ function minitelFooter() {
         // Do the animation, but only if not on mobile
         if (mobilelink == null) { // simply check for the existence of the link to switch the mobile version to desktop. This link does not exist on the desktop version.
             // Desktop version, we can show the animation (which will add a disable link)
+            minitelAddFish(); // add a div to place the April's Fools fish image (via CSS) - DO THIS BEFORE calling the animation (so that the animation can hide it and restore it afterward)
             minitelAnimMain();
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
-            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:magenta\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
+            minitelAddFish(); // add also the fish
+            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
             footerdiv.innerHTML = footerdiv.innerHTML + futurelink;
         }
