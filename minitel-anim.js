@@ -1,6 +1,6 @@
-﻿/* Minitel animation for MediaWiki + CSS dynamic management
+/* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- *  v2.0.0
+ * v2.0.1
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -296,7 +296,7 @@ console.log('Poisson d\'avril : chargement du footer');
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
             minitelAddFish(); // add also the fish
-            minitel_play_sound(); // the function is used directly to play the sound even if the banner is not displayed
+            //minitel_play_sound(); // the function is used directly to play the sound even if the banner is not displayed
             // Add a disable link
             futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur ! <small>(désactive le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
