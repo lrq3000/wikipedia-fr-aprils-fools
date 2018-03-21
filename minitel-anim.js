@@ -192,7 +192,7 @@ function minitelAnimMain() {
     bannerdiv.innerHTML = ""; // reset anything inside the bannerdiv, we will fill with our Minitel-like banner
     // Style it a bit for better effect (make it bigger)
     prevstyle = bannerdiv.getAttribute("style"); // backup previous style
-    bannerdiv.setAttribute("style", "font-size: 2em; width: 100em; overflow: visible; position: absolute;"); // make it bigger
+    bannerdiv.setAttribute("style", "font-size: 2em; width: auto; overflow: visible; position: absolute;"); // make it bigger
     // Allow to skip the animation on mouse click or key press
     bindUserInterruption(stopAnim, true);
     // Hide all other elements except the banner
@@ -268,6 +268,7 @@ function loadAndPixelateImages(){
 
 // HELPER FUNCTIONS
 function minitelHeader() {
+    console.log('Poisson d\'avril : chargement du header');
     // Helper function: Auto include CSS file as appropriate and add link to disable/enable the style
     // To be placed in the header (technically it could be placed at the footer and be merged with minitelFooter() but then there would be a split second where we can see the original WP style)
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
@@ -277,7 +278,7 @@ function minitelHeader() {
     }
 }
 function minitelFooter() {
-    console.log('LILI');
+console.log('Poisson d\'avril : chargement du footer');
     // Helper function: Launch the main routine on if not disabled by cookie! Also manages the links to enable/disable the style and animation
     // To be placed in the footer, at the most bottom place in your <body>, just before the </body> if possible (because we need all HTML elements to be already loaded, in order to manipulate them)
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
@@ -329,17 +330,16 @@ if (match) {
     // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
     minitelHeader();
     // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
-    console.log('LOLO');
+    console.log('Poisson d\'avril : page d\'accueil détectée');
     //window.addEventListener("load", function(){ // better but does not work on WP
     if (document.readyState=="complete") {
-    	console.log('HAHA1');
 		minitelFooter();
 	} else {
     	window.onload = function() {
-        	console.log('HAHA2');
         	minitelFooter();
     	};
 	}
+    console.log('Poisson d\'avril : chargement complet');
     // Add an empty unload callback to prevent the browser from caching JS (this allows to redo the animation just like first load when hitting the back button)
     window.addEventListener("unload", function(){});
 }
