@@ -192,7 +192,7 @@ function minitelAnimMain() {
     bannerdiv.innerHTML = ""; // reset anything inside the bannerdiv, we will fill with our Minitel-like banner
     // Style it a bit for better effect (make it bigger)
     prevstyle = bannerdiv.getAttribute("style"); // backup previous style
-    bannerdiv.setAttribute("style", "font-size: 2em; width: 100em; overflow: visible; position: absolute;"); // make it bigger
+    bannerdiv.setAttribute("style", "font-size: 2em; width: auto; overflow: visible; position: absolute;"); // make it bigger
     // Allow to skip the animation on mouse click or key press
     bindUserInterruption(stopAnim, true);
     // Hide all other elements except the banner
@@ -268,6 +268,7 @@ function loadAndPixelateImages(){
 
 // HELPER FUNCTIONS
 function minitelHeader() {
+    console.log('Poisson d\'avril : chargement du header');
     // Helper function: Auto include CSS file as appropriate and add link to disable/enable the style
     // To be placed in the header (technically it could be placed at the footer and be merged with minitelFooter() but then there would be a split second where we can see the original WP style)
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
@@ -277,7 +278,7 @@ function minitelHeader() {
     }
 }
 function minitelFooter() {
-    console.log('LILI');
+console.log('Poisson d\'avril : chargement du footer');
     // Helper function: Launch the main routine on if not disabled by cookie! Also manages the links to enable/disable the style and animation
     // To be placed in the footer, at the most bottom place in your <body>, just before the </body> if possible (because we need all HTML elements to be already loaded, in order to manipulate them)
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
@@ -289,14 +290,15 @@ function minitelFooter() {
             minitelAddFish(); // add a div to place the April's Fools fish image (via CSS) - DO THIS BEFORE calling the animation (so that the animation can hide it and restore it afterward)
             minitelAnimMain(); // do the banner animation! Note: this will also add a link to disable the style + Bonus: pixelate all images (included in stopAnim())
             // Add another link in the footer
-            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
+            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur ! <small>(désactive le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementById('footer-places');
             footerdiv.innerHTML = footerdiv.innerHTML + '<li>'+futurelink+'</li>';
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
             minitelAddFish(); // add also the fish
+            minitel_play_sound(); // the function is used directly to play the sound even if the banner is not displayed
             // Add a disable link
-            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
+            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur ! <small>(désactive le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
             footerdiv.innerHTML = footerdiv.innerHTML + futurelink;
             // Bonus: pixelate all images
@@ -306,15 +308,15 @@ function minitelFooter() {
         // Else the user disabled the Minitel style, just don't do anything except adding a link to reactivate the Minitel style
         if (mobilelink == null) {
             // Desktop version
-            pastlink = "<a href=\"?\" id=\"backtofuturelink\" style=\"font-size: 0.8em\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé!</a>";
+            pastlink = "<a href=\"?\" id=\"backtofuturelink\" style=\"font-size: 0.8em\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé ! <small>(active le poisson d'avril)</small></a>";
             bannerdiv = document.getElementById('accueil_2017_bloc-titre');
             bannerdiv.innerHTML = bannerdiv.innerHTML + pastlink;
-            pastlink2 = "<a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Retourner dans le passé!</a>";
+            pastlink2 = "<a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Retourner dans le passé ! <small>(active le poisson d'avril)</small></a>";
             footerdiv = document.getElementById('footer-places');
             footerdiv.innerHTML = footerdiv.innerHTML + '<li>'+pastlink2+'</li>';
         } else {
             // Mobile version
-            pastlink = "<li><a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé!</a></li>";
+            pastlink = "<li><a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé ! <small>(active le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
             footerdiv.innerHTML = footerdiv.innerHTML + pastlink;
         }
@@ -329,17 +331,16 @@ if (match) {
     // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
     minitelHeader();
     // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
-    console.log('LOLO');
+    console.log('Poisson d\'avril : page d\'accueil détectée');
     //window.addEventListener("load", function(){ // better but does not work on WP
     if (document.readyState=="complete") {
-    	console.log('HAHA1');
 		minitelFooter();
 	} else {
     	window.onload = function() {
-        	console.log('HAHA2');
         	minitelFooter();
     	};
 	}
+    console.log('Poisson d\'avril : chargement complet');
     // Add an empty unload callback to prevent the browser from caching JS (this allows to redo the animation just like first load when hitting the back button)
     window.addEventListener("unload", function(){});
 }
