@@ -290,14 +290,14 @@ console.log('Poisson d\'avril : chargement du footer');
             minitelAddFish(); // add a div to place the April's Fools fish image (via CSS) - DO THIS BEFORE calling the animation (so that the animation can hide it and restore it afterward)
             minitelAnimMain(); // do the banner animation! Note: this will also add a link to disable the style + Bonus: pixelate all images (included in stopAnim())
             // Add another link in the footer
-            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
+            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur ! <small>(désactive le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementById('footer-places');
             footerdiv.innerHTML = footerdiv.innerHTML + '<li>'+futurelink+'</li>';
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
             minitelAddFish(); // add also the fish
             // Add a disable link
-            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a></li>";
+            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur ! <small>(désactive le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
             footerdiv.innerHTML = footerdiv.innerHTML + futurelink;
             // Bonus: pixelate all images
@@ -307,15 +307,15 @@ console.log('Poisson d\'avril : chargement du footer');
         // Else the user disabled the Minitel style, just don't do anything except adding a link to reactivate the Minitel style
         if (mobilelink == null) {
             // Desktop version
-            pastlink = "<a href=\"?\" id=\"backtofuturelink\" style=\"font-size: 0.8em\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé!</a>";
+            pastlink = "<a href=\"?\" id=\"backtofuturelink\" style=\"font-size: 0.8em\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé ! <small>(active le poisson d'avril)</small></a>";
             bannerdiv = document.getElementById('accueil_2017_bloc-titre');
             bannerdiv.innerHTML = bannerdiv.innerHTML + pastlink;
-            pastlink2 = "<a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Retourner dans le passé!</a>";
+            pastlink2 = "<a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Retourner dans le passé ! <small>(active le poisson d'avril)</small></a>";
             footerdiv = document.getElementById('footer-places');
             footerdiv.innerHTML = footerdiv.innerHTML + '<li>'+pastlink2+'</li>';
         } else {
             // Mobile version
-            pastlink = "<li><a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé!</a></li>";
+            pastlink = "<li><a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé ! <small>(active le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
             footerdiv.innerHTML = footerdiv.innerHTML + pastlink;
         }
