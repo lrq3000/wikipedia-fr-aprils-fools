@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.0.3
+ * v2.0.4
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
