@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.0.4
+ * v2.1.0
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -301,12 +301,34 @@ function appendJSLink(parent, id, text, miniteldisable, list=false, style=null) 
         parent.appendChild(a);
     }
 }
+function changeColorWMF() {
+    // Change the text color of the "Powered by Wikimedia Foundation etc" text, for which the style is hardcoded in the HTML page (so cannot use CSS, only JS can do something here)
+    // limit the search inside mw-parser-output div
+    var mwparser = document.getElementsByClassName('mw-parser-output');
+    // search for all divs containing "Powered by Wikimedia Foundation etc" text
+    var aTags = mwparser[0].getElementsByTagName("div");
+    var searchText = "Wikipédia est hébergé par la ";
+    var found;
+    for (var i = 0; i < aTags.length; i++) {
+      if (aTags[i].textContent.includes(searchText)) {
+        found = aTags[i];
+        break;
+      }
+    }
+    // Now change the hardcoded font color for each div inside the one found
+    aTags2 = found.getElementsByTagName("div");
+    for (var i = 0; i < aTags2.length; i++) {
+        aTags2[i].style.color = 'lime';
+    }
+    // Change the horizontal separator color while we're at it
+    found.style.borderColor = 'lime';
+}
 
 // HELPER FUNCTIONS
 function minitelHeader() {
-    console.log('Poisson d\'avril : chargement du header');
     // Helper function: Auto include CSS file as appropriate and add link to disable/enable the style
     // To be placed in the header (technically it could be placed at the footer and be merged with minitelFooter() but then there would be a split second where we can see the original WP style)
+    console.log('Poisson d\'avril : chargement du header');
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
     if (minitel_disableflag != 1) {
         // Minitel style flag not disabled (or not defined), we include the CSS and launch the animation
@@ -314,9 +336,9 @@ function minitelHeader() {
     }
 }
 function minitelFooter() {
-console.log('Poisson d\'avril : chargement du footer');
     // Helper function: Launch the main routine on if not disabled by cookie! Also manages the links to enable/disable the style and animation
     // To be placed in the footer, at the most bottom place in your <body>, just before the </body> if possible (because we need all HTML elements to be already loaded, in order to manipulate them)
+    console.log('Poisson d\'avril : chargement du footer');
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
     mobilelink = document.getElementById('mw-mf-display-toggle'); // get the link to toggle between mobile and desktop (this id only exists on the mobile version)
     if (minitel_disableflag != 1) {
@@ -328,6 +350,7 @@ console.log('Poisson d\'avril : chargement du footer');
             // Add another link in the footer
             footerdiv = document.getElementById('footer-places');
             appendJSLink(footerdiv, "backtofuturelink", "Retourner vers le futur ! (désactive le poisson d'avril)", 1, true);
+            changeColorWMF();
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
             minitelAddFish(); // add also the fish

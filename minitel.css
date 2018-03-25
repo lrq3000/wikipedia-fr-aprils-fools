@@ -1,6 +1,6 @@
 /* Minitel CSS style for MediaWiki
 by LRQ3000
-v2.0.4
+v2.1.0
 Released under MIT License
 */
 
@@ -130,6 +130,8 @@ ul#footer-places li a.extiw:visited{color:#ff8000}
 div#footer ul li{color: lightgreen;}
 footer.minerva-footer a {color: #ff0080;}
 footer.minerva-footer a:visited {color: magenta;}
+.wb-langlinks-link > a:link,.wb-langlinks-link > a:visited { color: lightgrey !important; }
+.wb-langlinks-link > a:hover { color: grey !important; }
 /*a.stub{color:red}a.new,#p-personal a.new{color:red}a.new:visited,#p-personal a.new:visited{color:red}*/
 
 /* HORIZONTAL LINES AND BORDERS FIX */
