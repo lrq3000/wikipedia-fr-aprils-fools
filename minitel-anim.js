@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.0.1
+ * v2.0.2
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -266,6 +266,30 @@ function loadAndPixelateImages(){
     //} catch(err) {};
 }
 
+// Auxiliary function to generate html links using DOM operators via JS
+function appendJSLink(parent, id, text, miniteldisable, list=false, style=null) {
+    // Create the links to disable/reenable the style, without using innerHTML
+    // if list is true, then will put the link inside a <li>
+    var a = document.createElement('a');
+    a.appendChild(document.createTextNode(text));
+    a.title = text;
+    a.href = "?";
+    a.onclick = function() {setCookie('miniteldisable', miniteldisable, 1)};
+    a.id = id;
+    if (!style) {
+        a.style = "color:#ff0080";
+    } else {
+        a.style = style;
+    }
+    if (list) {
+        var li = document.createElement('li');
+        li.appendChild(a);
+        parent.appendChild(li);
+    } else {
+        parent.appendChild(a);
+    }
+}
+
 // HELPER FUNCTIONS
 function minitelHeader() {
     console.log('Poisson d\'avril : chargement du header');
@@ -288,19 +312,17 @@ console.log('Poisson d\'avril : chargement du footer');
         if (mobilelink == null) { // simply check for the existence of the link to switch the mobile version to desktop. This link does not exist on the desktop version.
             // Desktop version, we can show the animation (which will add a disable link)
             minitelAddFish(); // add a div to place the April's Fools fish image (via CSS) - DO THIS BEFORE calling the animation (so that the animation can hide it and restore it afterward)
-            minitelAnimMain(); // do the banner animation! Note: this will also add a link to disable the style + Bonus: pixelate all images (included in stopAnim())
+            minitelAnimMain(); // do the banner animation! Note: this will also add a link to disable the style + Bonus: pixelate all images (included in stopAnim(), to apply on images when they are unhidden)
             // Add another link in the footer
-            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur ! <small>(désactive le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementById('footer-places');
-            footerdiv.innerHTML = footerdiv.innerHTML + '<li>'+futurelink+'</li>';
+            appendJSLink(footerdiv, "backtofuturelink", "Retourner vers le futur ! (désactive le poisson d'avril)", 1, true);
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
             minitelAddFish(); // add also the fish
             //minitel_play_sound(); // the function is used directly to play the sound even if the banner is not displayed
             // Add a disable link
-            futurelink = "<li><a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur ! <small>(désactive le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
-            footerdiv.innerHTML = footerdiv.innerHTML + futurelink;
+            appendJSLink(footerdiv, "backtofuturelink", "Retourner vers le futur ! (désactive le poisson d'avril)", 1, true);
             // Bonus: pixelate all images
             loadAndPixelateImages();
         }
@@ -308,17 +330,14 @@ console.log('Poisson d\'avril : chargement du footer');
         // Else the user disabled the Minitel style, just don't do anything except adding a link to reactivate the Minitel style
         if (mobilelink == null) {
             // Desktop version
-            pastlink = "<a href=\"?\" id=\"backtofuturelink\" style=\"font-size: 0.8em\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé ! <small>(active le poisson d'avril)</small></a>";
             bannerdiv = document.getElementById('accueil_2017_bloc-titre');
-            bannerdiv.innerHTML = bannerdiv.innerHTML + pastlink;
-            pastlink2 = "<a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Retourner dans le passé ! <small>(active le poisson d'avril)</small></a>";
+            appendJSLink(bannerdiv, "backtofuturelink", "Je suis nostalgique, retourner dans le passé ! (active le poisson d'avril)", 0, false, "font-size: 0.8em;");
             footerdiv = document.getElementById('footer-places');
-            footerdiv.innerHTML = footerdiv.innerHTML + '<li>'+pastlink2+'</li>';
+            appendJSLink(footerdiv, "backtofuturelink", "Retourner dans le passé ! (active le poisson d'avril)", 0, true, ' ');
         } else {
             // Mobile version
-            pastlink = "<li><a href=\"?\" id=\"backtofuturelink\" onclick=\"setCookie('miniteldisable', 0, 1);\">Je suis nostalgique, retourner dans le passé ! <small>(active le poisson d'avril)</small></a></li>";
             footerdiv = document.getElementsByClassName('footer-places')[0];
-            footerdiv.innerHTML = footerdiv.innerHTML + pastlink;
+            appendJSLink(footerdiv, "backtofuturelink", "Je suis nostalgique, retourner dans le passé ! (active le poisson d'avril)", 0, true, ' ');
         }
     }
 }
