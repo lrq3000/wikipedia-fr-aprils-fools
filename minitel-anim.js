@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.1.2
+ * v2.1.3
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -57,6 +57,13 @@ function minitel_play_sound(){
         s.play();
     } catch(err) {}; // pass if Internet Explorer < 11 (incompatible with Audio)
 }
+function disableBlinkingOnUserInteraction() {
+    var a = document.getElementsByTagName('blink');
+    var b = document.createElement('span');
+    b.innerText = a[0].innerText;
+    a[0].parentNode.replaceChild(b, a[0]);
+    bindUserInterruption(disableBlinkingOnUserInteraction, false);
+}
 function stopAnim() {
     // Stop the animation and restore the page (on user interruption or because animation has finished)
     // This is called in any case at the end of the animation
@@ -68,6 +75,7 @@ function stopAnim() {
     bindUserInterruption(stopAnim, false); // unbind user interruption on mouse/keyboard (else it's not a big issue, the banner gets refreshed at each mouse or key press, it's not even visible with naked eye)
     loadAndPixelateImages(); // bonus: pixelate all images if possible (there is a try catch inside)
     document.getElementById('backtofuturelinkfixed').style.display = 'none'; // hide the fixed link to disable the style, there will be other links on the page anyway
+    bindUserInterruption(disableBlinkingOnUserInteraction, true); // allow to disable the blinking of the cursor if user press any key or click the mouse
 }
 function revealAll() {
     // Show all other HTML elements along with #minitelanim
@@ -126,13 +134,17 @@ function hideOrShowAllBut(eltid, mode) {
 function bindUserInterruption(f, mode) {
     // Bind the mouse click and keyboard key press to call the specified function (or unbinds if mode == false)
     if (mode == true) {
-        window.onclick = f;
-        window.onkeypress = f;
+        window.addEventListener("onclick", f, true);
+        //window.onclick = f;
+        window.addEventListener("onkeypress", f, true);
+        //window.onkeypress = f;
         document.getElementsByTagName("body")[0].onclick = function(){ f(); }; // for IE < 10 compatibility
         document.getElementsByTagName("body")[0].onkeypress = function(){ f(); }; // for IE < 10 compatibility
     } else {
-        window.onclick = null;
-        window.onkeypress = null;
+        window.removeEventListener("onclick", f, true);
+        //window.onclick = null;
+        window.removeEventListener("onkeypress", f, true);
+        //window.onkeypress = null;
         document.getElementsByTagName("body")[0].onclick = function(){ null }; // for IE < 10 compatibility
         document.getElementsByTagName("body")[0].onkeypress = function(){ null }; // for IE < 10 compatibility
     }
