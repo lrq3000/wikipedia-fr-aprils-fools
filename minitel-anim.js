@@ -253,7 +253,7 @@ function pixelateImages() {
         if (!(img.id == "aprilfishimg")) { // exception for april fish!
             prevstyle = window.getComputedStyle(img);
             if ((!prevstyle.display | prevstyle.display != 'none') & (!prevstyle.visibility | prevstyle.visibility != 'hidden')) { // pixelate and show only if the image is not already hidden
-                img.pixelate({ value: 0.2, reveal: true }); // modify the value here to make it less or more pixelated (1 for no pixelation, 0 for full pixelation)
+                img.pixelate({ value: 0.25, reveal: true }); // modify the value here to make it less or more pixelated (1 for no pixelation, 0 for full pixelation)
             }
         }
     }
