@@ -67,6 +67,7 @@ function stopAnim() {
     hideOrShowAllBut("#"+bannerdiv_id, false); //revealAll(); // reveal everything, all other HTML elements
     bindUserInterruption(stopAnim, false); // unbind user interruption on mouse/keyboard (else it's not a big issue, the banner gets refreshed at each mouse or key press, it's not even visible with naked eye)
     loadAndPixelateImages(); // bonus: pixelate all images if possible (there is a try catch inside)
+    document.getElementById('backtofuturelinkfixed').style.display = 'none'; // hide the fixed link to disable the style, there will be other links on the page anyway
 }
 function revealAll() {
     // Show all other HTML elements along with #minitelanim
@@ -199,6 +200,8 @@ function minitelAnimMain() {
     hideOrShowAllBut("#"+bannerdiv_id, true);
     // Start playing the Minitel like connection sound
     minitel_play_sound();
+    // Add a link fixed on the screen to disable the style at any moment
+    appendJSLink(document.body, "backtofuturelinkfixed", "Retourner vers le futur ! (désactive le poisson d'avril et l'animation)", 1, false, 'position:fixed;bottom:0;left:0;');
     // Start the Minitel like animation drawing the banner, after the Minitel sound
     setTimeout(function(){  // to wait for sound to finish
         minitel_title_anim(message.replace(/<[^>]+>/gi, "")); // trim all html code before doing the animation, the animation will anyway display the full message at the end with the markup
