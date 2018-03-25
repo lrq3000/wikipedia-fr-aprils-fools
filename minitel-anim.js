@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.1.3
+ * v2.1.4
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -393,7 +393,8 @@ function minitelFooter() {
 
 // Load only if main page, else skip and show normal pages
 var match = window.location.pathname.match( /Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || window.location.host.match( /localhost/ ) || window.location.host.match( /^.*\.github.io/ );
-if (match) {
+var match2 = window.location.pathname.match( /Sp%C3%A9cial/ ) || window.location.href.match( /action/ );
+if (match && (match2 == null)) {
     // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
     minitelHeader();
     // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
