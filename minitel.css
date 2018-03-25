@@ -1,6 +1,6 @@
 /* Minitel CSS style for MediaWiki
 by LRQ3000
-v2.1.1
+v2.1.2
 Released under MIT License
 */
 
@@ -177,10 +177,12 @@ blink, .blink {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAOCAMAAAAsYw3eAAAAM1BMVEUAAADY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NgA7+/Y2NgfRM3BAAAAD3RSTlMAECAwQFBgcICfr7/P3+8Gi+IRAAAAVklEQVQI1z2MMRKAIBDEcoKo4DH5/2stYEyVFLsARLuvYFFSnWXFUDUBOFwUgLKjApCqznVxqtoAYkTtY5zxBDxmA+rrvRdjqi9Mf6D/3uHI7VkA6gI+2B0FuCTLmqMAAAAASUVORK5CYII=);
 }
 #pt-notifications-alert .mw-echo-notifications-badge:before{
-    background-image:url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M17.5 14V9c0-3-2.3-5-5.5-5S6.5 6 6.5 9v5c0 2 0 3-2 3v1h15v-1c-2 0-2-1-2-3zM12 20H9c0 1 1.6 2 3 2s3-1 3-2h-3z" id="path2" style="fill:#cccccc" /> </svg>");
+    background-image:url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M17.5 14V9c0-3-2.3-5-5.5-5S6.5 6 6.5 9v5c0 2 0 3-2 3v1h15v-1c-2 0-2-1-2-3zM12 20H9c0 1 1.6 2 3 2s3-1 3-2h-3z" id="path2" style="fill:#f0f0f0" /> </svg>");
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAXVBMVEUAAAD////////v7+/w8PDz8/Px8fHy8vLv7+/w8PDw8PDv7+/w8PDx8fHv7+/v7+/v7+/v7+/w8PDw8PDx8fHw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PA6bVHWAAAAHnRSTlMAAwUQERYlJjFCRHN1f4CBgoOVnp/IytDR0uHi6/VXdYweAAAAYElEQVR42r3N2QqAIBCFYbUs26xsNZf3f0wpomGkO8H/cj44Q3JWjtq5cyjie23801XhO9X+7aAIWv/VIOgBOgQSQGaHGWBCoAAUgZgwAEaw+AN8SWy/V7Yf4Ku1C09YDkaVEnDY1VW1AAAAAElFTkSuQmCC);
 }
 #pt-notifications-notice .mw-echo-notifications-badge:before{
-    background-image:url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M3 13.35l1.8-7.2c.2-.996.81-1.8 1.8-1.8h10.8c.99 0 1.6.867 1.8 1.8l1.8 7.2v4.5c0 .99-.81 1.8-1.8 1.8H4.8c-.99 0-1.8-.81-1.8-1.8v-4.5zm6.96 1.8h4.08c-.49.557-1.212.9-2.04.9a2.68 2.68 0 0 1-2.04-.9h4.08c.414-.472.66-1.098.66-1.8h4.14l-1.44-7.2H6.6l-1.44 7.2H9.3c0 .702.246 1.328.66 1.8z" id="path2" style="fill:#cccccc" /> </svg>");
+    background-image:url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="M3 13.35l1.8-7.2c.2-.996.81-1.8 1.8-1.8h10.8c.99 0 1.6.867 1.8 1.8l1.8 7.2v4.5c0 .99-.81 1.8-1.8 1.8H4.8c-.99 0-1.8-.81-1.8-1.8v-4.5zm6.96 1.8h4.08c-.49.557-1.212.9-2.04.9a2.68 2.68 0 0 1-2.04-.9h4.08c.414-.472.66-1.098.66-1.8h4.14l-1.44-7.2H6.6l-1.44 7.2H9.3c0 .702.246 1.328.66 1.8z" id="path2" style="fill:#f0f0f0" /> </svg>");
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAgVBMVEUAAAD////////j4+Pr6+vt7e3v7+/w8PDw8PDw8PDw8PDx8fHu7u7x8fHx8fHw8PDw8PDw8PDw8PDw8PDw8PDv7+/w8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDK9UJpAAAAKnRSTlMAAQgJDQ4gISIjMjY9SUpTVIaHiImUlZiZnZ6qubq7yMnQ0t3o7O37/P443wA0AAAAiUlEQVR4Ab3P2Q6CMBSE4cFFUcEdXFDEBQvz/g9og82E9gH4rk7yX0wOBrO6FnJZQsY1ez4jhZRZLBlThSM3kC0PuivOIHM+4EzMN4JEtZm6c80beu5MNbFDz14j1X9b6xoxLO1jCazEHiWNC+ycYJ3Z8ULztho/BBRaBloXXgw8XVjkhSePMYwfwLgZbrNBMU8AAAAASUVORK5CYII=);
 }
 
 /* Mobile menu images replacement */
