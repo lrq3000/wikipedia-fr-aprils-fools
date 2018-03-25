@@ -202,6 +202,18 @@ textarea {
 }
 
 /* April's Fools fish image */
+@keyframes swimEffect {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 #aprilfish {
     /* div containing the fish, define its position on viewport and its size */
     position:fixed; /* place the image absolutely relatively to viewport */
@@ -212,6 +224,10 @@ textarea {
     height:20%;
     opacity:0.5; /* make it transparent */
     z-index:100;
+    animation-name: swimEffect;
+    animation-duration: 2.2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
 }
 #aprilfish img {
     /* autoresize the image according to the parent aprilfish div */
