@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.1.0
+ * v2.1.1
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -201,7 +201,7 @@ function minitelAnimMain() {
     // Start playing the Minitel like connection sound
     minitel_play_sound();
     // Add a link fixed on the screen to disable the style at any moment
-    appendJSLink(document.body, "backtofuturelinkfixed", "Retourner vers le futur ! (désactive le poisson d'avril et l'animation)", 1, false, 'position:fixed;bottom:0;left:0;');
+    appendJSLink(document.body, "backtofuturelinkfixed", "Retourner vers le futur ! (désactive le poisson d'avril et l'animation)", 1, false, 'position:fixed;bottom:0;left:0;color:#ff0080;font-weight:bold;');
     // Start the Minitel like animation drawing the banner, after the Minitel sound
     setTimeout(function(){  // to wait for sound to finish
         minitel_title_anim(message.replace(/<[^>]+>/gi, "")); // trim all html code before doing the animation, the animation will anyway display the full message at the end with the markup
