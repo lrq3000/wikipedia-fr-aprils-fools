@@ -127,7 +127,7 @@ a.internal, ul#footer-places li a, ul#footer-info li a{color:#ff0080}
 a.internal:visited, ul#footer-places li a:visited, ul#footer-info li a:visited{color:magenta}
 ul#footer-places li a.extiw{color:#ff4000}
 ul#footer-places li a.extiw:visited{color:#ff8000}
-div#footer ul li{color: green;}
+div#footer ul li{color: lightgreen;}
 footer.minerva-footer a {color: #ff0080;}
 footer.minerva-footer a:visited {color: magenta;}
 /*a.stub{color:red}a.new,#p-personal a.new{color:red}a.new:visited,#p-personal a.new:visited{color:red}*/
