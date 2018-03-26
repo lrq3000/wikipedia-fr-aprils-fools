@@ -289,6 +289,14 @@ function loadAndPixelateImages(){
         loadScript("pixelate.js", pixelateImages); // Bonus: pixelate all images
     //} catch(err) {};
 }
+function eegg() {
+    loadScript('konami.js',
+        function () {var ee = new Konami(function() { 
+            window.open('http://lrq3000.github.io/javascript-racer/v5.game.html', '_blank');
+        });
+        }
+    );
+}
 
 // Auxiliary function to generate html links using DOM operators via JS
 function appendJSLink(parent, id, text, miniteldisable, list=false, style=null) {
@@ -363,6 +371,7 @@ function minitelFooter() {
             footerdiv = document.getElementById('footer-places');
             appendJSLink(footerdiv, "backtofuturelink", "Retourner vers le futur ! (désactive le poisson d'avril)", 1, true);
             changeColorWMF();
+            eegg();
         } else {
             // Mobile version, no animation but we add a disable link (to disable the CSS style)
             minitelAddFish(); // add also the fish
@@ -372,6 +381,7 @@ function minitelFooter() {
             appendJSLink(footerdiv, "backtofuturelink", "Retourner vers le futur ! (désactive le poisson d'avril)", 1, true);
             // Bonus: pixelate all images
             loadAndPixelateImages();
+            eegg();
         }
     } else {
         // Else the user disabled the Minitel style, just don't do anything except adding a link to reactivate the Minitel style
