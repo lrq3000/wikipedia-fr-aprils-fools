@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.1.7
+ * v2.1.8
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -8,7 +8,7 @@
  *
  * Or if via the javascript overloading API in MediaWiki, you can simply create a common.js page (either in userspace at User:YourName/common.js or globally for all users at MediaWiki:Common.js) and add the following line at the bottom:
  mw.loader.load( '/w/index.php?title=User:YourName/minitel-anim.js&action=raw&ctype=text/javascript' );
- * Then create two pages minitel-anim.js and minitel.css and paste the javascript and css respectively in these two pages. Note that you will have to update the paths in both codes to load the correct articles paths that you have just created.
+ * Then create three pages minitel-anim.js, minitel.css and pixelate.js and paste respectively the code of these files in these pages. Note that you will have to update the paths in minitel-anim.js to load the correct articles paths that you have just created.
  * Note: There is no need to include the CSS separately, it will be dynamically loaded by this script (which allows to disable the style by clicking a link). The style can however be used standalone, without the JS, by only including the CSS in the HTML head.
  * Note2: to do a hard refresh to reload the javascript and CSS in case of modifications, press CTRL+F5.
  *
