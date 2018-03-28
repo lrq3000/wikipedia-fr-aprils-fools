@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.2.0
+ * v2.2.1
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -426,11 +426,12 @@ function minitelFooter() {
 // LOAD ON JS INCLUDE
 
 // Load only if we are the 1st april 2018, and no other date (will allow automatic enabling/disabling past the date)
-if (getCurrentDate() == '01/04/2018') {
+var match = window.location.host.match( /localhost/ ) || window.location.host.match( /^.*\.github.io/ ); // special case if we are testing, just show the style anytime
+if (getCurrentDate() == '01/04/2018' || match) {
     // Load only if main page, else skip and show normal pages
-    var match = window.location.pathname.match( /\/wiki\/Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || window.location.host.match( /localhost/ ) || window.location.host.match( /^.*\.github.io/ );
-    var match2 = window.location.pathname.match( /Sp%C3%A9cial/ ) || (window.location.href.match( /action/ ) && (window.location.href.match( /mobileaction/ ) == null)); // check if we are not doing an action on the homepage, then we disable (except if the action is to switch from mobile to desktop version, then we still show)
-    if (match && (!match2 || match2 == null)) {
+    var match2 = window.location.pathname.match( /\/wiki\/Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || match;
+    var match3 = window.location.pathname.match( /Sp%C3%A9cial/ ) || (window.location.href.match( /action/ ) && (window.location.href.match( /mobileaction/ ) == null)); // check if we are not doing an action on the homepage, then we disable (except if the action is to switch from mobile to desktop version, then we still show)
+    if (match2 && (!match3 || match3 == null)) {
         // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
         minitelHeader();
         // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
