@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.1.8
+ * v2.1.9
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -297,6 +297,23 @@ function eegg() {
         }
     );
 }
+function getCurrentDate() {
+    // Get (client-side) current date
+    // from: https://stackoverflow.com/a/12409344/1121352
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+    var today = dd+'/'+mm+'/'+yyyy;
+    return today;
+}
 
 // Auxiliary function to generate html links using DOM operators via JS
 function appendJSLink(parent, id, text, miniteldisable, list=false, style=null) {
@@ -401,23 +418,26 @@ function minitelFooter() {
 
 // LOAD ON JS INCLUDE
 
-// Load only if main page, else skip and show normal pages
-var match = window.location.pathname.match( /\/wiki\/Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || window.location.host.match( /localhost/ ) || window.location.host.match( /^.*\.github.io/ );
-var match2 = window.location.pathname.match( /Sp%C3%A9cial/ ) || (window.location.href.match( /action/ ) && (window.location.href.match( /mobileaction/ ) == null)); // check if we are not doing an action on the homepage, then we disable (except if the action is to switch from mobile to desktop version, then we still show)
-if (match && (!match2 || match2 == null)) {
-    // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
-    minitelHeader();
-    // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
-    console.log('Poisson d\'avril : page d\'accueil détectée');
-    //window.addEventListener("load", function(){ // better but does not work on WP
-    if (document.readyState=="complete") {
-		minitelFooter();
-	} else {
-    	window.onload = function() {
-        	minitelFooter();
-    	};
-	}
-    console.log('Poisson d\'avril : chargement complet');
-    // Add an empty unload callback to prevent the browser from caching JS (this allows to redo the animation just like first load when hitting the back button)
-    window.addEventListener("unload", function(){});
+// Load only if we are the 1st april 2018, and no other date (will allow automatic enabling/disabling past the date)
+if (getCurrentDate() == '01/04/2018') {
+    // Load only if main page, else skip and show normal pages
+    var match = window.location.pathname.match( /\/wiki\/Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || window.location.host.match( /localhost/ ) || window.location.host.match( /^.*\.github.io/ );
+    var match2 = window.location.pathname.match( /Sp%C3%A9cial/ ) || (window.location.href.match( /action/ ) && (window.location.href.match( /mobileaction/ ) == null)); // check if we are not doing an action on the homepage, then we disable (except if the action is to switch from mobile to desktop version, then we still show)
+    if (match && (!match2 || match2 == null)) {
+        // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
+        minitelHeader();
+        // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
+        console.log('Poisson d\'avril : page d\'accueil détectée');
+        //window.addEventListener("load", function(){ // better but does not work on WP
+        if (document.readyState=="complete") {
+            minitelFooter();
+        } else {
+            window.onload = function() {
+                minitelFooter();
+            };
+        }
+        console.log('Poisson d\'avril : chargement complet');
+        // Add an empty unload callback to prevent the browser from caching JS (this allows to redo the animation just like first load when hitting the back button)
+        window.addEventListener("unload", function(){});
+    }
 }
