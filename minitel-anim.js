@@ -292,7 +292,8 @@ function loadAndPixelateImages(){
 function eegg() {
     loadScript('konami.js',
         function () {var ee = new Konami(function() { 
-            window.open('https://lrq3000.github.io/javascript-racer/v5.game.html', '_blank', 'noopener');
+            var newWnd = window.open('https://lrq3000.github.io/javascript-racer/v5.game.html', '_blank', 'noopener');
+            newWnd.opener = null; // security fix: https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
         });
         }
     );
