@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.2.1
+ * v2.2.4
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -58,11 +58,17 @@ function minitel_play_sound(){
     } catch(err) {}; // pass if Internet Explorer < 11 (incompatible with Audio)
 }
 function disableBlinkingOnUserInteraction() {
+    // Stop animations on user interaction
+    // In accordance with: https://www.w3.org/TR/2008/REC-WCAG20-20081211/#time-limits-pause
+    // Stop the banner cursor blinking on user key press and mouse click
     var a = document.getElementsByTagName('blink');
     var b = document.createElement('span');
     b.innerText = a[0].innerText;
     a[0].parentNode.replaceChild(b, a[0]);
     bindUserInterruption(disableBlinkingOnUserInteraction, false);
+    // Also stop the fish image from moving
+    var c = document.getElementById('aprilfish');
+    c.style.animationIterationCount = '0';
 }
 function stopAnim() {
     // Stop the animation and restore the page (on user interruption or because animation has finished)
