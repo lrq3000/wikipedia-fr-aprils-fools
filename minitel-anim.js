@@ -292,7 +292,7 @@ function loadAndPixelateImages(){
 function eegg() {
     loadScript('konami.js',
         function () {var ee = new Konami(function() { 
-            window.open('http://lrq3000.github.io/javascript-racer/v5.game.html', '_blank');
+            window.open('https://lrq3000.github.io/javascript-racer/v5.game.html', '_blank', 'noopener');
         });
         }
     );
