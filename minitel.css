@@ -1,6 +1,6 @@
 /* Minitel CSS style for MediaWiki
  * by LRQ3000
- * v2.2.4
+ * v2.2.5
  * Released under MIT License
  */
 
@@ -49,6 +49,7 @@ div#accueil_2017_bloc-titre, div#accueil_2017_bloc-titre pre {
     /*width: 30em;*/
     /* height: 10em; */
     /* margin: 0 0 0 -25px; /* The figlet is a bit too big to stay inside the column, we trick the display by using a negative margin */
+    margin: 0; /* for Safari <= 5 */
     vertical-align: top;
     overflow: visible;
     display: block;

@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.2.4
+ * v2.2.5
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -323,7 +323,7 @@ function getCurrentDate() {
 }
 
 // Auxiliary function to generate html links using DOM operators via JS
-function appendJSLink(parent, id, text, miniteldisable, list=false, style=null) {
+function appendJSLink(parent, id, text, miniteldisable, list, style) {
     // Create the links to disable/reenable the style, without using innerHTML
     // if list is true, then will put the link inside a <li>
     var a = document.createElement('a');
@@ -336,6 +336,7 @@ function appendJSLink(parent, id, text, miniteldisable, list=false, style=null) 
         a.style = "color:#ff0080";
     } else {
         a.style = style;
+        a.style.cssText = style; // fix for Safari <= 5
     }
     if (list) {
         var li = document.createElement('li');
@@ -354,18 +355,22 @@ function changeColorWMF() {
     var searchText = "Wikipédia est hébergé par la ";
     var found;
     for (var i = 0; i < aTags.length; i++) {
-      if (aTags[i].textContent.includes(searchText)) {
-        found = aTags[i];
-        break;
-      }
+      try {
+          if (aTags[i].textContent.indexOf(searchText) >= 0) { // prefer String.indexOf() instead of String.includes() for retrocompatibility with Safari <= 5
+            found = aTags[i];
+            break;
+          }
+      } catch(exc) {};
     }
     // Now change the hardcoded font color for each div inside the one found
-    aTags2 = found.getElementsByTagName("div");
-    for (var i = 0; i < aTags2.length; i++) {
-        aTags2[i].style.color = 'lime';
+    if (found) {
+        aTags2 = found.getElementsByTagName("div");
+        for (var i = 0; i < aTags2.length; i++) {
+            aTags2[i].style.color = 'lime';
+        }
+        // Change the horizontal separator color while we're at it
+        found.style.borderColor = 'lime';
     }
-    // Change the horizontal separator color while we're at it
-    found.style.borderColor = 'lime';
     // Finally hide again the printfooter
     var printfooter = document.getElementsByClassName("printfooter")[0]
     printfooter.style = '';
