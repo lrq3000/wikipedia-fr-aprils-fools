@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.2.8
+ * v2.2.9
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -140,17 +140,21 @@ function hideOrShowAllBut(eltid, mode) {
 function bindUserInterruption(f, mode) {
     // Bind the mouse click and keyboard key press to call the specified function (or unbinds if mode == false)
     if (mode == true) {
-        window.addEventListener("onclick", f, true);
-        //window.onclick = f;
-        window.addEventListener("onkeypress", f, true);
+        try { // compatibility with old IE
+            window.addEventListener("onclick", f, true);
+            //window.onclick = f;
+            window.addEventListener("onkeypress", f, true);
+        } catch(exc) {};
         //window.onkeypress = f;
         document.getElementsByTagName("body")[0].onclick = function(){ f(); }; // for IE < 10 compatibility
         document.getElementsByTagName("body")[0].onkeypress = function(){ f(); }; // for IE < 10 compatibility
     } else {
-        window.removeEventListener("onclick", f, true);
-        //window.onclick = null;
-        window.removeEventListener("onkeypress", f, true);
-        //window.onkeypress = null;
+        try { // compatibility with old IE
+            window.removeEventListener("onclick", f, true);
+            //window.onclick = null;
+            window.removeEventListener("onkeypress", f, true);
+            //window.onkeypress = null;
+        } catch(exc) {};
         document.getElementsByTagName("body")[0].onclick = function(){ null }; // for IE < 10 compatibility
         document.getElementsByTagName("body")[0].onkeypress = function(){ null }; // for IE < 10 compatibility
     }
@@ -279,12 +283,14 @@ function pixelateImages() {
     var imgs = document.getElementsByTagName('img'); // get all img objects
     for (var i = 0; i < imgs.length; i++) { // iterate on each image
         img = imgs[i];
-        //console.log(img.id);
+        //window.console && console.log(img.id);
         if (!(img.id == "aprilfishimg")) { // exception for april fish!
-            prevstyle = window.getComputedStyle(img);
-            if ((!prevstyle.display | prevstyle.display != 'none') & (!prevstyle.visibility | prevstyle.visibility != 'hidden')) { // pixelate and show only if the image is not already hidden
-                img.pixelate({ value: 0.25, reveal: true }); // modify the value here to make it less or more pixelated (1 for no pixelation, 0 for full pixelation)
-            }
+            try { // fix for old IE
+                prevstyle = window.getComputedStyle(img);
+                if ((!prevstyle.display | prevstyle.display != 'none') & (!prevstyle.visibility | prevstyle.visibility != 'hidden')) { // pixelate and show only if the image is not already hidden
+                    img.pixelate({ value: 0.25, reveal: true }); // modify the value here to make it less or more pixelated (1 for no pixelation, 0 for full pixelation)
+                }
+            } catch(exc) {};
         }
     }
 }
@@ -297,10 +303,13 @@ function loadAndPixelateImages(){
 }
 function eegg() {
     loadScript('konami.js',
-        function () {var ee = new Konami(function() { 
-            var newWnd = window.open('https://lrq3000.github.io/javascript-racer/v5.game.html', '_blank', 'noopener');
-            newWnd.opener = null; // security fix: https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
-        });
+        function () {
+        try { // fix for old IE
+            var ee = new Konami(function() { 
+                var newWnd = window.open('https://lrq3000.github.io/javascript-racer/v5.game.html', '_blank', 'noopener');
+                newWnd.opener = null; // security fix: https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
+            });
+        } catch(exc) {};
         }
     );
 }
@@ -333,9 +342,17 @@ function appendJSLink(parent, id, text, miniteldisable, list, style) {
     a.onclick = function() {setCookie('miniteldisable', miniteldisable, 1)};
     a.id = id;
     if (!style) {
-        a.style = "color:#ff0080";
+        try { // compatibility with old IE
+            a.style = "color:#ff0080";
+        } catch(exc) {
+            a.style.setAttribute("color:#ff0080");
+        }
     } else {
-        a.style = style;
+        try { // compatibility with old IE
+            a.style = style;
+        } catch(exc) {
+            a.style.setAttribute(style);
+        };
         a.style.cssText = style; // fix for Safari <= 5
     }
     if (list) {
@@ -373,17 +390,21 @@ function changeColorWMF() {
     }
     // Finally hide again the printfooter
     var printfooter = document.getElementsByClassName("printfooter")[0]
-    printfooter.style = '';
-    printfooter.style.display = 'none !important';
-    printfooter.hidden = true;
-    printfooter.style.position = 'absolute';
-    printfooter.style.visibility = 'hidden';
+    try { // fix for old internet explorer
+        printfooter.style = '';
+        printfooter.style.display = 'none !important';
+        printfooter.hidden = true;
+        printfooter.style.position = 'absolute';
+        printfooter.style.visibility = 'hidden';
+    } catch(exc) {
+        printfooter.style.setAttribute('display: none !important; position:absolute; visibility:hidden');
+    }
 }
 function changeBistroTitleBox() {
     // Bonus style for the Bistro: change the title, add a Wikipedia Arcade logo, and change the two images on the sides
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
     if (minitel_disableflag != 1) {
-        console.log('Poisson d\'avril: activation du style bonus pour Le Bistro');
+        window.console && console.log('Poisson d\'avril: activation du style bonus pour Le Bistro');
         // search for <big> tags, and more particularly the one containing "Le Bistro" text string
         var aTags = document.getElementsByTagName("big");
         var searchText = "Le Bistro";
@@ -435,7 +456,7 @@ function changeBistroTitleBox() {
         eegg();
     } else {
         // Else the style was disabled, just add a link to allow to enable
-        console.log('Poisson d\'avril: désactivation du style bonus pour Le Bistro');
+        window.console && console.log('Poisson d\'avril: désactivation du style bonus pour Le Bistro');
         mobilelink = document.getElementById('mw-mf-display-toggle'); // get the link to toggle between mobile and desktop (this id only exists on the mobile version)
         if (mobilelink == null) {
             footerdiv = document.getElementById('footer-places');
@@ -451,7 +472,7 @@ function changeBistroTitleBox() {
 function minitelHeader() {
     // Helper function: Auto include CSS file as appropriate and add link to disable/enable the style
     // To be placed in the header (technically it could be placed at the footer and be merged with minitelFooter() but then there would be a split second where we can see the original WP style)
-    console.log('Poisson d\'avril : chargement du header');
+    window.console && console.log('Poisson d\'avril : chargement du header');
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
     if (minitel_disableflag != 1) {
         // Minitel style flag not disabled (or not defined), we include the CSS and launch the animation
@@ -461,7 +482,7 @@ function minitelHeader() {
 function minitelFooter() {
     // Helper function: Launch the main routine on if not disabled by cookie! Also manages the links to enable/disable the style and animation
     // To be placed in the footer, at the most bottom place in your <body>, just before the </body> if possible (because we need all HTML elements to be already loaded, in order to manipulate them)
-    console.log('Poisson d\'avril : chargement du footer');
+    window.console && console.log('Poisson d\'avril : chargement du footer');
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
     mobilelink = document.getElementById('mw-mf-display-toggle'); // get the link to toggle between mobile and desktop (this id only exists on the mobile version)
     if (minitel_disableflag != 1) {
@@ -515,7 +536,7 @@ if (getCurrentDate() == '01/04/2018' || match) {
         // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
         minitelHeader();
         // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
-        console.log('Poisson d\'avril : page d\'accueil détectée');
+        window.console && console.log('Poisson d\'avril : page d\'accueil détectée');
         if (document.readyState=="complete") {  // if the document is already rendered, then can call right now
             minitelFooter();
         } else { // else the document is still rendering, delay the call to later (delaying is important, this is what allows to place this JS include anywhere in the page, header or footer does not matter)
@@ -524,9 +545,11 @@ if (getCurrentDate() == '01/04/2018' || match) {
                 minitelFooter();
             };
         }
-        console.log('Poisson d\'avril : chargement complet');
+        window.console && console.log('Poisson d\'avril : chargement complet');
         // Add an empty unload callback to prevent the browser from caching JS (this allows to redo the animation just like first load when hitting the back button)
-        window.addEventListener("unload", function(){});
+        try { // compatibility with old IE
+            window.addEventListener("unload", function(){});
+        } catch (exc) {};
 
     } else if (match4) {
         // Bonus style for the bistro
