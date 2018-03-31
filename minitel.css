@@ -1,6 +1,6 @@
 /* Minitel CSS style for MediaWiki
  * by LRQ3000
- * v2.1.9
+ * v2.2.0
  * Released under MIT License
  */
 
@@ -144,6 +144,8 @@ div#mw-panel div.portal div.body {background-image: url(data:image/png;base64,iV
 footer.minerva-footer, footer.minerva-footer .view-border-box{border-color:lime;} /* mobile footer */
 h1, h2, h3, h4, h5, h6{border-color: lime;}
 div.footer-content h2{border-color: lime;}
+/* Hide printed footer */
+.printfooter { display: none; }
 
 /* Blinking animation to liven up a bit the title */
 /* from https://en.wikipedia.org/wiki/Blink_element */

@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.1.9
+ * v2.2.0
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -359,6 +359,13 @@ function changeColorWMF() {
     }
     // Change the horizontal separator color while we're at it
     found.style.borderColor = 'lime';
+    // Finally hide again the printfooter
+    var printfooter = document.getElementsByClassName("printfooter")[0]
+    printfooter.style = '';
+    printfooter.style.display = 'none !important';
+    printfooter.hidden = true;
+    printfooter.style.position = 'absolute';
+    printfooter.style.visibility = 'hidden';
 }
 
 // HELPER FUNCTIONS
