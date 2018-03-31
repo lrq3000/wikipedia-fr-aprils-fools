@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.2.5
+ * v2.2.6
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -225,15 +225,15 @@ function minitelAnimMain() {
         minitel_title_anim(message.replace(/<[^>]+>/gi, "")); // trim all html code before doing the animation, the animation will anyway display the full message at the end with the markup
     }, 1400);
 }
-function includeMinitelCSS() {
+function includeCSS(path) {
     // Loads additional Minitel CSS style file to the webpage (so this does not replace any other CSS style file, it gets added over the others)
     try {
-    	mw.loader.load( '/w/index.php?title=User:Lrq3000/minitel.css&action=raw&ctype=text/css', 'text/css' );
+    	mw.loader.load( '/w/index.php?title=User:Lrq3000/'+path+'&action=raw&ctype=text/css', 'text/css' );
     } catch(err) {
     	var fileref = document.createElement("link");
 	    fileref.rel = "stylesheet";
 	    fileref.type = "text/css";
-	    fileref.href = "minitel.css";
+	    fileref.href = path;
 	    document.getElementsByTagName("head")[0].appendChild(fileref)
     }
 }
@@ -379,6 +379,38 @@ function changeColorWMF() {
     printfooter.style.position = 'absolute';
     printfooter.style.visibility = 'hidden';
 }
+function changeBistroTitle() {
+    // Bonus style for the Bistro
+    var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
+    if (minitel_disableflag != 1) {
+        // search for <big> tags, and more particularly the one containing "Le Bistro" text string
+        var aTags = document.getElementsByTagName("big");
+        var searchText = "Le Bistro";
+        var found;
+        for (var i = 0; i < aTags.length; i++) {
+            console.log(aTags[i]);
+          try {
+              if (aTags[i].textContent.indexOf(searchText) >= 0) { // prefer String.indexOf() instead of String.includes() for retrocompatibility with Safari <= 5
+                found = aTags[i];
+                break;
+              }
+          } catch(exc) {};
+        }
+        // Now add an id, so the CSS can apply
+        found.id = 'bistrotag';
+        // Include the Bisto css
+        includeCSS('minitel-bistro.css');
+        // Add disable link in the footer
+        footerdiv = document.getElementById('footer-places');
+        appendJSLink(footerdiv, "backtofuturelink", "Je n'aime pas les salles d'arcades ! (désactive le poisson d'avril)", 1, true, ' ');
+        // Add secret game code
+        eegg();
+    } else {
+        // Else the style was disabled, just add a link to allow to enable
+        footerdiv = document.getElementById('footer-places');
+        appendJSLink(footerdiv, "backtofuturelink", "Je veux être béta-testeur d'arcades ! (active le poisson d'avril)", 0, true, ' ');
+    }
+}
 
 // HELPER FUNCTIONS
 function minitelHeader() {
@@ -388,7 +420,7 @@ function minitelHeader() {
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
     if (minitel_disableflag != 1) {
         // Minitel style flag not disabled (or not defined), we include the CSS and launch the animation
-        includeMinitelCSS();
+        includeCSS('minitel.css');
     }
 }
 function minitelFooter() {
@@ -443,15 +475,16 @@ if (getCurrentDate() == '01/04/2018' || match) {
     // Load only if main page, else skip and show normal pages
     var match2 = window.location.pathname.match( /\/wiki\/Wikip%C3%A9dia:Accueil_principal/ ) || window.location.href.match( /title=Wikip%C3%A9dia:Accueil_principal/ ) || match;
     var match3 = window.location.pathname.match( /Sp%C3%A9cial/ ) || (window.location.href.match( /action/ ) && (window.location.href.match( /mobileaction/ ) == null)); // check if we are not doing an action on the homepage, then we disable (except if the action is to switch from mobile to desktop version, then we still show)
-    if (match2 && (!match3 || match3 == null)) {
+    var match4 = window.location.pathname.match( /\/wiki\/Wikip%C3%A9dia:Le_Bistro/ ) || (match && window.location.href.match( /bistro/ ));
+    if (match2 && (!match3 || match3 == null) && (!match4)) {
         // the WP stylesheet needs to be done inside the javascript, else there will be a split-second blink (not a usability issue, it's just for a more pleasing visual experience)
         minitelHeader();
         // Add a callback to start the animation at the end of page load (so all elements, including images, are already loaded and can be modified/hidden)
         console.log('Poisson d\'avril : page d\'accueil détectée');
-        //window.addEventListener("load", function(){ // better but does not work on WP
-        if (document.readyState=="complete") {
+        if (document.readyState=="complete") {  // if the document is already rendered, then can call right now
             minitelFooter();
-        } else {
+        } else { // else the document is still rendering, delay the call to later (delaying is important, this is what allows to place this JS include anywhere in the page, header or footer does not matter)
+            //window.addEventListener("load", function(){ // better but does not work on WP
             window.onload = function() {
                 minitelFooter();
             };
@@ -459,5 +492,16 @@ if (getCurrentDate() == '01/04/2018' || match) {
         console.log('Poisson d\'avril : chargement complet');
         // Add an empty unload callback to prevent the browser from caching JS (this allows to redo the animation just like first load when hitting the back button)
         window.addEventListener("unload", function(){});
+
+    } else if (match4) {
+        // Bonus style for the bistro
+        // Call the bonus style
+        if (document.readyState=="complete") { // if the document is already rendered, then can call right now
+            changeBistroTitle();
+        } else { // else the document is still rendering, delay the call to later (delaying is important, this is what allows to place this JS include anywhere in the page, header or footer does not matter)
+            window.onload = function() {
+                changeBistroTitle();
+            };
+        }
     }
 }
