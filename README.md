@@ -3,7 +3,7 @@ WP+:fish:=:star2::bridge_at_night::star2:
 
 This is a style for MediaWiki overloading the Vector style for desktop and Minerva style for mobile and mimicking a retro web style in a mix between Minitel/Videotex and old web's ASCII art. The style was tailored to work on the homepage and the Bistro, although the CSS style can be applied on any page. It was used for an event on French Wikipédia on April's Fools Day 2018.
 
-[Test the style here.](https://github.com/lrq3000/wikipedia-fr-aprils-fools/)
+[Test the style here.](https://lrq3000.github.io/wikipedia-fr-aprils-fools/)
 
 ![Desktop screenshot](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/img/WP-FR-Minitel-maquette-v7.png)
 ![Mobile screenshot](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/img/WP-FR-Minitel-maquette-mobile-v7.png)
