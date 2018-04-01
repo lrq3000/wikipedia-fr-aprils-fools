@@ -1,5 +1,5 @@
 # wikipedia-fr-aprils-fools
-WP+:fish:=:star2::bridge_at_night::star2:
+A retro Minitel/ASCII style for MediaWiki. WP+:fish:=:star2::bridge_at_night::star2:
 
 This is a style for MediaWiki overloading the Vector style for desktop and Minerva style for mobile and mimicking a retro web style in a mix between Minitel/Videotex and old web's ASCII art. The style was tailored to work on the homepage and the Bistro, although the CSS style can be applied on any page. It was used for an event on French Wikipédia on April's Fools Day 2018.
 
@@ -7,6 +7,21 @@ This is a style for MediaWiki overloading the Vector style for desktop and Miner
 
 ![Desktop screenshot](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/img/WP-FR-Minitel-maquette-v7.png)
 ![Mobile screenshot](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/img/WP-FR-Minitel-maquette-mobile-v7.png)
+
+## INSTALL
+To install this theme in MediaWiki, this can be done either globally or only for your user account. To do that, simply create one article in your user pages for each script name, and copy/paste the code there (eg, `/w/User:my_username/minitel.css` - for French Wikipédia, replace `User:my_username` by `Utilisateur:my_username`). Then, just add one include in your `/w/User:my_username/common.js` like this:
+
+`mw.loader.load( '/w/index.php?title=User:my_username/minitel-anim.js&action=raw&ctype=text/javascript' );`
+
+This will load the whole style with the animation and everything, but this will be activated only on 1st April 2018 and on the homepage (this can easily be modified in the code, in `minitel-anim.js`).
+
+Also, note that the javascript is only useful if you want the homepage banner animation and the images pixellating, if not, you can simply include the `minitel.css`, this will do most of the styling, then simply include this in your `Utilisateur:my_username/common.css` (not `common.js`!):
+
+`mw.loader.load( '/w/index.php?title=User:my_username/minitel.css&action=raw&ctype=text/css', 'text/css');`
+
+For more infos, see [this page](https://en.wikipedia.org/wiki/Wikipedia:Skin#Customisation_(advanced_users)) and [this page](https://www.mediawiki.org/wiki/ResourceLoader/Core_modules#mw.loader.load).
+
+Finally, note that this style was built as an overload over Vector (for desktop) and Minerva (for mobile) standard styles, so you need these styles loaded first before loading this retro style.
 
 ## CREDITS
 Big thank you, in no particular order, to:
