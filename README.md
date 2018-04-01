@@ -30,7 +30,9 @@ These are things that were learnt during the development of an April's Fools jok
 * make it easy to disable for the user (both the whole style and any animation/moving object), via for example a javascript link setting a cookie
 * make it accessible for color blind
 * test test and retest on all browsers, including super old ones and mobiles
-* make it easy to implement
+* make it easy to implement for admins, and easy to remove in case of issues
+* make it auto-activated in the specific timeframe you want, because of cache
+* use good standards, and in particular check for XSS vulnerabilities
 
 ## TODO
 The following would have been great additions to do but could not be done on time:
