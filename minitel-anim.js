@@ -208,7 +208,7 @@ function minitelAnimMain() {
     // To change the banner, please first sanitize it in this order: double (escape) the antislashes and then replace line returns by \n
     // This necessitate an appropriate CSS for the bannerdiv for good display (even though we enclose inside <pre> for consistent rendering in old browsers): white-space: pre; font-family: courier;
     message = "<pre> __      __ _  _    _         __     _  _\n \\ \\    / /(_)| |__(_) _ __  /_/  __| |(_) __ _\n  \\ \\/\\/ / | || / /| || '_ \\/ -_)/ _` || |/ _` |\n   \\_/\\_/  |_||_\\_\\|_|| .__/\\___|\\__,_||_|\\__,_|\n                      |_|</pre>\nL'encyclopédie libre que chacun peut améliorer<blink>_</blink>";
-    message_post = "\n<a href=\"?\" id=\"backtofuturelink\" style=\"color:#ff0080\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur!</a>"; // something you want to add after the banner but not shown during the animation (but this will be shown after on the page)
+    message_post = "\n<br /><a href=\"?\" id=\"backtofuturelink\" style=\"font-weight: bold; font-family: sans-serif; color: cyan;\" onclick=\"setCookie('miniteldisable', 1, 1);\">Retourner vers le futur! Désactiver le poisson d'avril.</a>"; // something you want to add after the banner but not shown during the animation (but this will be shown after on the page)
     //document.getElementById('backtofuturelink').onclick = setCookie('miniteldisable', 1, 30);
     // Get the banner div html element
     bannerdiv = document.getElementById(bannerdiv_id);
