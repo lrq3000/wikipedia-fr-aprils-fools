@@ -24,6 +24,14 @@ Big thank you, in no particular order, to:
 * the community of Wikipédia FR!
 * anyone else who contributed that I might have forgotten (please open an issue!)
 
+## LESSONS LEARNT
+These are things that were learnt during the development of an April's Fools joke for such a big community project:
+* be (super) obvious, in particular the links to disable (must be super visible and easy)
+* make it easy to disable for the user (both the whole style and any animation/moving object), via for example a javascript link setting a cookie
+* make it accessible for color blind
+* test test and retest on all browsers, including super old ones and mobiles
+* make it easy to implement
+
 ## TODO
 The following would have been great additions to do but could not be done on time:
 * Downsampling images color bits to web colors only (https://fr.wikipedia.org/wiki/Couleur_du_Web#Noms_des_couleurs_HTML), an idea of Pic-Sou which was unfortunately not made in time.
