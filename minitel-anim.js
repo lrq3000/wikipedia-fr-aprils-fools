@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.2.7
+ * v2.2.8
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -400,9 +400,6 @@ function changeBistroTitleBox() {
         found.id = 'bistrotag';
         // Include the Bisto css
         includeCSS('minitel-bistro.css');
-        // Add disable link in the footer
-        footerdiv = document.getElementById('footer-places');
-        appendJSLink(footerdiv, "backtofuturelink", "Je n'aime pas les salles d'arcades ! (désactive le poisson d'avril)", 1, true, ' ');
         // Change the images on the sides
         var mwparser = document.getElementsByClassName("mw-parser-output");
         var aTags2 = mwparser[0].getElementsByClassName("floatleft");
@@ -425,13 +422,28 @@ function changeBistroTitleBox() {
         imrightlink.appendChild(imright);
         aTags2[0].replaceChild(imleftlink, aTags2[0].getElementsByTagName('a')[0]);
         aTags3[0].replaceChild(imrightlink, aTags3[0].getElementsByTagName('a')[0]);
+        // Add disable link in the footer
+        mobilelink = document.getElementById('mw-mf-display-toggle'); // get the link to toggle between mobile and desktop (this id only exists on the mobile version)
+        if (mobilelink == null) {
+            footerdiv = document.getElementById('footer-places');
+            appendJSLink(footerdiv, "backtofuturelink", "Je n'aime pas les salles d'arcades ! (désactive le poisson d'avril)", 1, true, ' ');
+        } else {
+            footerdiv = document.getElementsByClassName('footer-places')[0];
+            appendJSLink(footerdiv, "backtofuturelink", "Je n'aime pas les salles d'arcades ! (désactive le poisson d'avril)", 1, true, ' ');
+        }
         // Add secret game code
         eegg();
     } else {
-        console.log('Poisson d\'avril: désactivation du style bonus pour Le Bistro');
         // Else the style was disabled, just add a link to allow to enable
-        footerdiv = document.getElementById('footer-places');
-        appendJSLink(footerdiv, "backtofuturelink", "Je veux être béta-testeur d'arcades ! (active le poisson d'avril)", 0, true, ' ');
+        console.log('Poisson d\'avril: désactivation du style bonus pour Le Bistro');
+        mobilelink = document.getElementById('mw-mf-display-toggle'); // get the link to toggle between mobile and desktop (this id only exists on the mobile version)
+        if (mobilelink == null) {
+            footerdiv = document.getElementById('footer-places');
+            appendJSLink(footerdiv, "backtofuturelink", "Je veux être béta-testeur d'arcades ! (active le poisson d'avril)", 0, true, ' ');
+        } else {
+            footerdiv = document.getElementsByClassName('footer-places')[0];
+            appendJSLink(footerdiv, "backtofuturelink", "Je veux être béta-testeur d'arcades ! (active le poisson d'avril)", 0, true, ' ');
+        }
     }
 }
 
