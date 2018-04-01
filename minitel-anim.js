@@ -1,6 +1,6 @@
 /* Minitel animation for MediaWiki + CSS dynamic management
  * by LRQ3000
- * v2.2.6
+ * v2.2.7
  * Released under MIT license.
  * Usage: either simply include this script at the header:
  *
@@ -379,16 +379,16 @@ function changeColorWMF() {
     printfooter.style.position = 'absolute';
     printfooter.style.visibility = 'hidden';
 }
-function changeBistroTitle() {
-    // Bonus style for the Bistro
+function changeBistroTitleBox() {
+    // Bonus style for the Bistro: change the title, add a Wikipedia Arcade logo, and change the two images on the sides
     var minitel_disableflag = getCookie("miniteldisable"); // check the miniteldisable style flag in the cookie
     if (minitel_disableflag != 1) {
+        console.log('Poisson d\'avril: activation du style bonus pour Le Bistro');
         // search for <big> tags, and more particularly the one containing "Le Bistro" text string
         var aTags = document.getElementsByTagName("big");
         var searchText = "Le Bistro";
         var found;
         for (var i = 0; i < aTags.length; i++) {
-            console.log(aTags[i]);
           try {
               if (aTags[i].textContent.indexOf(searchText) >= 0) { // prefer String.indexOf() instead of String.includes() for retrocompatibility with Safari <= 5
                 found = aTags[i];
@@ -403,9 +403,32 @@ function changeBistroTitle() {
         // Add disable link in the footer
         footerdiv = document.getElementById('footer-places');
         appendJSLink(footerdiv, "backtofuturelink", "Je n'aime pas les salles d'arcades ! (désactive le poisson d'avril)", 1, true, ' ');
+        // Change the images on the sides
+        var mwparser = document.getElementsByClassName("mw-parser-output");
+        var aTags2 = mwparser[0].getElementsByClassName("floatleft");
+        var aTags3 = mwparser[0].getElementsByClassName("floatright");
+        var imleft = document.createElement('img');
+        imleft.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Arcade_machine_icon.png/240px-Arcade_machine_icon.png';
+        imleft.alt = 'Image d\'une machine de jeu d\'arcade';
+        imleft.style.width = '200px';
+        var imright = document.createElement('img');
+        imright.src = 'https://upload.wikimedia.org/wikipedia/commons/a/af/Arcade_video_game_buttons.jpg';
+        imright.alt = 'Image de boutons d\'une machine de jeu d\'arcade';
+        imright.style.width = '200px';
+        var imleftlink = document.createElement('a');
+        imleftlink.href = 'https://commons.wikimedia.org/wiki/File:Arcade_machine_icon.png';
+        imleftlink.title = 'Image d\'une machine de jeu d\'arcade';
+        imleftlink.appendChild(imleft);
+        var imrightlink = document.createElement('a');
+        imrightlink.href = 'https://commons.wikimedia.org/wiki/File:Arcade_video_game_buttons.jpg';
+        imrightlink.title = 'Image de boutons d\'une machine de jeu d\'arcade';
+        imrightlink.appendChild(imright);
+        aTags2[0].replaceChild(imleftlink, aTags2[0].getElementsByTagName('a')[0]);
+        aTags3[0].replaceChild(imrightlink, aTags3[0].getElementsByTagName('a')[0]);
         // Add secret game code
         eegg();
     } else {
+        console.log('Poisson d\'avril: désactivation du style bonus pour Le Bistro');
         // Else the style was disabled, just add a link to allow to enable
         footerdiv = document.getElementById('footer-places');
         appendJSLink(footerdiv, "backtofuturelink", "Je veux être béta-testeur d'arcades ! (active le poisson d'avril)", 0, true, ' ');
@@ -497,10 +520,10 @@ if (getCurrentDate() == '01/04/2018' || match) {
         // Bonus style for the bistro
         // Call the bonus style
         if (document.readyState=="complete") { // if the document is already rendered, then can call right now
-            changeBistroTitle();
+            changeBistroTitleBox();
         } else { // else the document is still rendering, delay the call to later (delaying is important, this is what allows to place this JS include anywhere in the page, header or footer does not matter)
             window.onload = function() {
-                changeBistroTitle();
+                changeBistroTitleBox();
             };
         }
     }
