@@ -5,9 +5,9 @@ This is a style for MediaWiki overloading the Vector style for desktop and Miner
 
 [Test the style here.](https://lrq3000.github.io/wikipedia-fr-aprils-fools/)
 
-![Logo](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/res/Wikipedia-logo-v2-fr-minitel-2.svg.png)
 ![Desktop screenshot](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/screenshots/WP-FR-Minitel-Final.png)
 ![Mobile screenshot](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/screenshots/WP-FR-Minitel-mobile-Final.png)
+![Logo](https://github.com/lrq3000/wikipedia-fr-aprils-fools/raw/master/res/Wikipedia-logo-v2-fr-minitel-2.svg.png)
 
 ## INSTALL
 To install this theme in MediaWiki, this can be done either globally or only for your user account. To do that, simply create one article in your user pages for each script name, and copy/paste the code there (eg, `/w/User:my_username/minitel.css` - for French Wikipédia, replace `User:my_username` by `Utilisateur:my_username`). Then, just add one include in your `/w/User:my_username/common.js` like this:
